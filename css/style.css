@@ -311,6 +311,13 @@ code {
   height:          100%;
   margin:          0 auto;
   padding:         0 var(--spacing-lg);
+  gap:             var(--spacing-sm);
+}
+
+/* On desktop: nav-links fills the middle, theme btn stays right */
+@media (min-width: 768px) {
+  .nav-container { justify-content: flex-end; }
+  .nav-links      { flex: 1; justify-content: flex-end; }
 }
 
 /* ── 9c. Logo ───────────────────────────────────────────────── */
@@ -383,35 +390,38 @@ code {
 .nav-cta::after   { display: none; }
 .nav-cta:hover    { background-color: var(--color-accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); color: #ffffff !important; }
 
-/* ── 9g. Theme Toggle button ────────────────────────────────────── */
-.theme-toggle {
-  display: flex !important;
-  align-items: center;
+.nav-cta:active { transform: translateY(0); box-shadow: none; }
+
+/* ── 9g. Theme Toggle button (always visible, right side of navbar) ─ */
+.nav-theme-btn {
+  display:         flex;
+  align-items:     center;
   justify-content: center;
+  width:           40px;
+  height:          40px;
+  border-radius:   var(--radius);
+  color:           var(--color-text);
+  background:      transparent;
+  flex-shrink:     0;
+  position:        relative;
+  z-index:         var(--z-nav);
+  transition:      background-color var(--transition-fast), color var(--transition-fast);
 }
-.theme-toggle svg {
-  pointer-events: none;
-}
+.nav-theme-btn:hover { background-color: var(--color-surface); }
+.nav-theme-btn svg   { pointer-events: none; }
 
-.theme-toggle svg {
-  pointer-events: none;
-}
-
-.nav-cta:active   { transform: translateY(0); box-shadow: none; }
-
-/* ── 9g. Hamburger toggle ───────────────────────────────────── */
+/* ── 9h. Hamburger toggle (mobile only, left side of navbar) ────── */
 .nav-toggle {
-  display:        none;
-  flex-direction: column;
+  display:         none;
+  flex-direction:  column;
   justify-content: center;
-  align-items:    center;
-  gap:            5px;
-  width:          44px;
-  height:         44px;
-  border-radius:  var(--radius);
-  position:       relative;
-  z-index:        var(--z-nav);
-  transition:     background-color var(--transition-fast);
+  align-items:     center;
+  gap:             5px;
+  width:           44px;
+  height:          44px;
+  border-radius:   var(--radius);
+  flex-shrink:     0;
+  transition:      background-color var(--transition-fast);
 }
 
 .nav-toggle:hover { background-color: var(--color-surface); }
@@ -454,8 +464,10 @@ body.nav-open .nav-backdrop {
 ================================================================ */
 
 @media (max-width: 767px) {
-  .nav-toggle   { display: flex; }
-  .nav-backdrop { display: block; }
+  /* Hamburger left, theme toggle right, space-between pushes them apart */
+  .nav-container  { justify-content: space-between; }
+  .nav-toggle     { display: flex; }
+  .nav-backdrop   { display: block; }
 
   .nav-links {
     position:         fixed;
@@ -987,26 +999,54 @@ body.nav-open .nav-backdrop {
 @media (max-width: 767px) {
 
   #hero {
-    padding-top:    calc(var(--nav-height) + var(--spacing-lg));
-    padding-bottom: var(--spacing-3xl);
-    text-align:     center;
+    /* Use dvh so the hero fills exactly the visible screen height */
+    min-height:      100dvh;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     stretch;
+    padding-top:     calc(var(--nav-height) + var(--spacing-lg));
+    padding-bottom:  var(--spacing-2xl);
+    padding-left:    0;
+    padding-right:   0;
+    text-align:      center;
+    overflow:        hidden;
   }
 
-  /* Stack columns vertically on mobile — card below text */
+  /* Remove container side-padding inside hero on mobile so the
+     card can be centered by its own margin */
+  #hero > .container {
+    padding-left:  var(--spacing-md);
+    padding-right: var(--spacing-md);
+    width:         100%;
+  }
+
+  /* Single-column stacked layout: text above, card below */
   .hero-grid {
-    grid-template-columns: 1fr;
-    gap:                   var(--spacing-2xl);
+    display:               flex;
+    flex-direction:        column;
+    align-items:           center;
+    justify-content:       center;
+    gap:                   var(--spacing-xl);
+    width:                 100%;
   }
 
-  /* Centre the bio text on mobile */
+  /* Centre all hero text content */
+  .hero-content {
+    align-items: center;
+    width:       100%;
+  }
+
   .hero-bio {
-    max-width: 100%;
-    margin:    0 auto;
+    max-width:  100%;
+    margin:     0 auto;
+    text-align: center;
   }
 
   /* Centre the button row */
   .hero-actions {
     justify-content: center;
+    width:           100%;
   }
 
   /* Full-width buttons on very small screens */
@@ -1016,19 +1056,25 @@ body.nav-open .nav-backdrop {
       align-items:    stretch;
     }
     .btn {
-      width:       100%;
-      text-align:  center;
+      width:      100%;
+      text-align: center;
     }
   }
 
-  /* Override right-slide animation for mobile — fade up instead */
+  /* Card wrapper — full width, card centered inside */
   .hero-card-wrapper {
-    animation-name: heroFadeUp;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    width:           100%;
+    animation-name:  heroFadeUp;
   }
 
-  /* Card takes full width on mobile */
+  /* Card: fixed sensible max-width, perfectly centered */
   .hero-card {
-    max-width: 100%;
+    max-width: 340px;
+    width:     calc(100% - 2 * var(--spacing-md));
+    margin:    0 auto;
   }
 
   /* Hide scroll hint on mobile — not needed with stacked layout */
