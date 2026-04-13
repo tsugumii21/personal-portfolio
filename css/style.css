@@ -436,13 +436,17 @@ code {
   position:         fixed;
   inset:            0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index:          calc(var(--z-nav) - 1);
+  z-index:          95;     /* below nav-links (99) but above page content */
   opacity:          0;
+  pointer-events:   none;   /* never block clicks when invisible */
   transition:       opacity var(--transition-base);
   backdrop-filter:  blur(2px);
 }
 
-body.nav-open .nav-backdrop { opacity: 1; }
+body.nav-open .nav-backdrop {
+  opacity:        1;
+  pointer-events: auto;     /* only intercept clicks when menu is open */
+}
 
 
 /* ================================================================
@@ -2118,13 +2122,15 @@ body.nav-open .nav-backdrop { opacity: 1; }
     flex: 0 0 100%;
   }
 
+  /* 44px buttons + 8px gap each side = 52px padding */
   .cert-carousel-wrapper {
-    padding: 0 40px;
+    padding: 0 52px;
   }
 
+  /* Meet 44×44px minimum touch target on mobile */
   .cert-carousel-btn {
-    width:  36px;
-    height: 36px;
+    width:  44px;
+    height: 44px;
   }
 
   /* suppress old grid rule (no longer used) */
@@ -3063,11 +3069,13 @@ html.dark .timeline-badge--ongoing {
   transform:        translateY(-4px);
 }
 
-/* Hide or move on mobile if it conflicts with something else */
 @media (max-width: 767px) {
   .scroll-top-btn {
+    width:  44px;
+    height: 44px;
     bottom: 16px;
-    right:  80px;  /* 16px FAB right + 52px mobile FAB width + 12px gap */
+    right:  76px;   /* 16px FAB + 52px FAB width + 8px gap = 76px */
+    font-size: 1rem;
   }
 }
 
@@ -3381,8 +3389,9 @@ html.dark .timeline-badge--ongoing {
   .gemini-panel {
     width:  calc(100vw - 24px);
     right:  12px;
-    bottom: 88px;
-    height: 420px;
+    left:   12px;    /* pin both sides so it never bleeds off-screen */
+    bottom: 84px;
+    height: min(420px, calc(100dvh - 120px));  /* never taller than viewport */
   }
 
   .gemini-fab {
@@ -3390,6 +3399,18 @@ html.dark .timeline-badge--ongoing {
     right:  16px;
     width:  52px;
     height: 52px;
+  }
+
+  /* Larger tap target for send button on mobile */
+  .gemini-send {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Larger tap target for close button */
+  .gemini-close {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -3419,5 +3440,49 @@ html.dark .timeline-badge--ongoing {
 
 @media (prefers-reduced-motion: reduce) {
   .theme-ripple { animation: none; opacity: 0; }
+}
+
+
+/* ================================================================
+   45. SMALL SCREEN FIXES  (≤ 380px — e.g. iPhone SE, small Android)
+================================================================ */
+@media (max-width: 380px) {
+  /* Tighter horizontal padding so content doesn't clip */
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Prevent hero badges from overflowing */
+  .hero-badges {
+    justify-content: center;
+    gap: var(--spacing-xs);
+  }
+
+  /* Ensure section headings don't overflow */
+  .section-heading {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  /* Nav-link font size on very small screens */
+  .nav-link {
+    font-size: var(--text-sm);
+  }
+
+  /* Certification carousel: tighter arrow padding */
+  .cert-carousel-wrapper {
+    padding: 0 44px;
+  }
+
+  .cert-carousel-btn {
+    width:  40px;
+    height: 40px;
+  }
+
+  /* Chatbot: ensure it fits */
+  .gemini-panel {
+    right:  8px;
+    left:   8px;
+    width:  auto;
+  }
 }
 
