@@ -459,17 +459,223 @@ if (currentTheme === 'dark') {
 
 if (themeToggle) {
   themeToggle.addEventListener('click', function () {
+
+    /* ── Ripple animation from the toggle button ── */
+    const rect = themeToggle.getBoundingClientRect();
+    const cx   = rect.left + rect.width  / 2;
+    const cy   = rect.top  + rect.height / 2;
+    const size = Math.hypot(window.innerWidth, window.innerHeight) * 2;
+
+    const ripple = document.createElement('div');
+    ripple.className      = 'theme-ripple';
+    ripple.style.width    = size + 'px';
+    ripple.style.height   = size + 'px';
+    ripple.style.left     = (cx - size / 2) + 'px';
+    ripple.style.top      = (cy - size / 2) + 'px';
+    document.body.appendChild(ripple);
+    ripple.addEventListener('animationend', function () { ripple.remove(); });
+
+    /* ── Switch the theme ── */
     document.documentElement.classList.toggle('dark');
-    
-    // Check what the current mode is
+
     if (document.documentElement.classList.contains('dark')) {
       localStorage.setItem('theme', 'dark');
       if (themeIconMoon) themeIconMoon.style.display = 'none';
-      if (themeIconSun) themeIconSun.style.display = 'block';
+      if (themeIconSun)  themeIconSun.style.display  = 'block';
     } else {
       localStorage.setItem('theme', 'light');
       if (themeIconMoon) themeIconMoon.style.display = 'block';
-      if (themeIconSun) themeIconSun.style.display = 'none';
+      if (themeIconSun)  themeIconSun.style.display  = 'none';
     }
   });
 }
+
+/* ════════════════════════════════════════════════════════════════
+   CERTIFICATIONS CAROUSEL
+   – Shows 3 cards on desktop, 2 on tablet, 1 on mobile.
+   – Prev / Next arrows + animated pill dots + auto-advance.
+   – Pauses auto-advance on hover / focus.
+   – Touch swipe support.
+════════════════════════════════════════════════════════════════ */
+(function initCertCarousel() {
+  const track  = document.getElementById('cert-track');
+  const dotsEl = document.getElementById('cert-dots');
+  const prevBtn = document.getElementById('cert-prev');
+  const nextBtn = document.getElementById('cert-next');
+
+  if (!track || !dotsEl || !prevBtn || !nextBtn) return;
+
+  const slides     = Array.from(track.querySelectorAll('.cert-slide'));
+  const TOTAL      = slides.length;   // 5
+  let   current    = 0;
+  let   autoTimer  = null;
+
+  /* ── How many cards are visible at this viewport width ── */
+  function visibleCount() {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768)  return 2;
+    return 1;
+  }
+
+  /* ── Max navigable index ── */
+  function maxIndex() {
+    return Math.max(0, TOTAL - visibleCount());
+  }
+
+  /* ── Build / rebuild dot buttons ── */
+  function buildDots() {
+    dotsEl.innerHTML = '';
+    const count = maxIndex() + 1;
+    for (let i = 0; i < count; i++) {
+      const btn = document.createElement('button');
+      btn.className   = 'cert-dot' + (i === current ? ' cert-dot--active' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-label', 'Go to certificate group ' + (i + 1));
+      btn.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      btn.addEventListener('click', function () { goTo(i); resetAuto(); });
+      dotsEl.appendChild(btn);
+    }
+  }
+
+  /* ── Sync dots to current index ── */
+  function updateDots() {
+    Array.from(dotsEl.querySelectorAll('.cert-dot')).forEach(function (dot, i) {
+      dot.classList.toggle('cert-dot--active', i === current);
+      dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+    });
+  }
+
+  /* ── Apply translateX to track ── */
+  function applyTransform() {
+    if (!slides[0]) return;
+    const slideW = slides[0].getBoundingClientRect().width;
+    const gap    = parseFloat(getComputedStyle(track).gap) || 24;
+    track.style.transform = 'translateX(-' + (current * (slideW + gap)) + 'px)';
+  }
+
+  /* ── Navigate to a specific index ── */
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex()));
+    applyTransform();
+    updateDots();
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= maxIndex();
+  }
+
+  /* ── Auto-advance ── */
+  function startAuto() {
+    autoTimer = setInterval(function () {
+      goTo(current >= maxIndex() ? 0 : current + 1);
+    }, 6000);
+  }
+
+  function stopAuto()  { clearInterval(autoTimer); }
+  function resetAuto() { stopAuto(); startAuto(); }
+
+  /* ── Pause on hover / focus ── */
+  const wrapper = track.closest('.cert-carousel-wrapper');
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', stopAuto);
+    wrapper.addEventListener('mouseleave', startAuto);
+    wrapper.addEventListener('focusin',    stopAuto);
+    wrapper.addEventListener('focusout',   startAuto);
+  }
+
+  /* ── Arrow buttons ── */
+  prevBtn.addEventListener('click', function () { goTo(current - 1); resetAuto(); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1); resetAuto(); });
+
+  /* ── Touch / swipe ── */
+  let touchStartX = 0;
+  const carousel = document.getElementById('cert-carousel');
+  if (carousel) {
+    carousel.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', function (e) {
+      const delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 40) {
+        goTo(delta > 0 ? current + 1 : current - 1);
+        resetAuto();
+      }
+    }, { passive: true });
+  }
+
+  /* ── Keyboard navigation on arrows ── */
+  prevBtn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(current - 1); resetAuto(); }
+  });
+  nextBtn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(current + 1); resetAuto(); }
+  });
+
+  /* ── Rebuild on resize (debounced) ── */
+  let resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      current = Math.min(current, maxIndex());
+      buildDots();
+      goTo(current);
+    }, 150);
+  });
+
+  /* ── Init ── */
+  buildDots();
+  goTo(0);
+  startAuto();
+}());
+
+/* ════════════════════════════════════════════════════════════════
+   CERTIFICATE PDF THUMBNAILS  (PDF.js 3.x)
+   Renders the first page of each PDF as a canvas thumbnail.
+   Falls back gracefully if PDF.js is not loaded.
+════════════════════════════════════════════════════════════════ */
+(function renderCertPreviews() {
+  if (typeof pdfjsLib === 'undefined') return;
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  var canvases = document.querySelectorAll('.cert-canvas[data-pdf]');
+
+  canvases.forEach(function (canvas) {
+    /* Show shimmer while loading */
+    canvas.classList.add('cert-loading');
+
+    var pdfPath = canvas.getAttribute('data-pdf');
+
+    pdfjsLib.getDocument(pdfPath).promise
+      .then(function (pdf) {
+        return pdf.getPage(1);
+      })
+      .then(function (page) {
+        var containerW = canvas.parentElement.offsetWidth || 340;
+        var baseViewport = page.getViewport({ scale: 1 });
+
+        /* Scale so the page width fills the container */
+        var scale = containerW / baseViewport.width;
+        var viewport = page.getViewport({ scale: scale });
+
+        /* Set canvas pixel dimensions */
+        canvas.width  = viewport.width;
+        canvas.height = viewport.height;
+
+        /* Clip canvas height to the preview box via CSS; let it overflow */
+        canvas.style.width  = '100%';
+        canvas.style.height = 'auto';
+
+        var ctx = canvas.getContext('2d');
+        return page.render({ canvasContext: ctx, viewport: viewport }).promise;
+      })
+      .then(function () {
+        canvas.classList.remove('cert-loading');
+      })
+      .catch(function (err) {
+        /* Remove shimmer and show a muted placeholder on error */
+        canvas.classList.remove('cert-loading');
+        canvas.style.background = 'var(--color-surface)';
+        console.warn('[cert-preview] Could not render PDF:', pdfPath, err);
+      });
+  });
+}());

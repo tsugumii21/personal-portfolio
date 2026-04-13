@@ -50,20 +50,18 @@
     ============================================================ -->
     <header id="navbar" role="banner">
       <nav class="nav-container" aria-label="Main navigation">
-        <a
-          href="#hero"
-          class="nav-logo"
-          aria-label="Allen Del Valle — back to top"
-        >
-          Allen Del Valle
-        </a>
-
         <ul class="nav-links" id="nav-links" role="list">
           <li><a href="#hero" class="nav-link" data-nav-link>Home</a></li>
           <li><a href="#about" class="nav-link" data-nav-link>About</a></li>
           <li><a href="#skills" class="nav-link" data-nav-link>Skills</a></li>
-          <li><a href="#certifications" class="nav-link" data-nav-link>Certifications</a></li>
-          <li><a href="#experience" class="nav-link" data-nav-link>Experience</a></li>
+          <li>
+            <a href="#certifications" class="nav-link" data-nav-link
+              >Certifications</a
+            >
+          </li>
+          <li>
+            <a href="#experience" class="nav-link" data-nav-link>Experience</a>
+          </li>
           <li>
             <a href="#projects" class="nav-link" data-nav-link>Projects</a>
           </li>
@@ -242,6 +240,7 @@
                     <span class="tech-badge">JavaScript</span>
                     <span class="tech-badge">Flutter</span>
                     <span class="tech-badge">Dart</span>
+                    <span class="tech-badge">React</span>
                   </div>
                 </div>
                 <!-- /hero-card-body -->
@@ -497,82 +496,211 @@
         <div class="container">
           <div class="certifications-header">
             <span class="section-label reveal">Certifications</span>
-            <h2 class="section-heading reveal reveal-delay-1">My Certifications</h2>
+            <h2 class="section-heading reveal reveal-delay-1">
+              My Certifications
+            </h2>
           </div>
 
-          <div class="certifications-grid">
+          <!-- ── Carousel wrapper ─────────────────────────────────── -->
+          <div class="cert-carousel-wrapper reveal reveal-delay-2">
+            <!-- Prev arrow -->
+            <button
+              class="cert-carousel-btn cert-carousel-btn--prev"
+              id="cert-prev"
+              aria-label="Previous certificate"
+              disabled
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
 
-            <!-- ── Cert 1 ── -->
-            <article class="cert-card reveal reveal-delay-1">
-              <div class="cert-card-top">
-                <div class="cert-issuer-circle" aria-hidden="true">G</div>
-                <div class="cert-info">
-                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
-                  <p class="cert-org">[ISSUER]</p>
+            <!-- Clip / overflow container -->
+            <div
+              class="cert-carousel"
+              id="cert-carousel"
+              aria-label="Certifications carousel"
+            >
+              <!-- Sliding track — 3 slides, newest → oldest -->
+              <div class="cert-carousel-track" id="cert-track">
+
+                <!-- ── 1 of 3 · Digital Safety and Security Awareness · Mar 28, 2026 ── -->
+                <div class="cert-slide" role="group" aria-label="Certificate 1 of 5">
+                  <article class="cert-card">
+                    <div class="cert-preview">
+                      <a href="assets/certifications/cisco-digital-safety.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Digital Safety and Security Awareness Certificate image">
+                        <img src="assets/certifications/cisco-digital-safety.jpg" alt="Digital Safety and Security Awareness Certificate" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="cert-card-top">
+                      <div class="cert-issuer-circle" aria-hidden="true">D</div>
+                      <div class="cert-info">
+                        <h3 class="cert-name">Digital Safety and Security Awareness</h3>
+                        <p class="cert-org">DICT-ITU DTC Initiative</p>
+                        <p class="cert-via">via Cisco Networking Academy</p>
+                      </div>
+                    </div>
+                    <p class="cert-id">ID: 79dcfecd-bceb-43b7-9e7d-d025e22056b5</p>
+                    <div class="cert-card-bottom">
+                      <span class="cert-date">March 28, 2026</span>
+                      <a href="assets/certifications/cisco-digital-safety.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">
+                        Open PDF &#8599;
+                      </a>
+                    </div>
+                  </article>
                 </div>
-              </div>
-              <div class="cert-card-bottom">
-                <span class="cert-date">[DATE]</span>
-                <a
-                  href="#"
-                  class="cert-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Certificate
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            </article>
 
-            <!-- ── Cert 2 ── -->
-            <article class="cert-card reveal reveal-delay-2">
-              <div class="cert-card-top">
-                <div class="cert-issuer-circle" aria-hidden="true">I</div>
-                <div class="cert-info">
-                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
-                  <p class="cert-org">[ISSUER]</p>
+                <!-- ── 2 of 5 · Digital Safety — Statement of Achievement · Mar 28, 2026 ── -->
+                <div class="cert-slide" role="group" aria-label="Certificate 2 of 5">
+                  <article class="cert-card">
+                    <div class="cert-preview">
+                      <a href="assets/certifications/cisco-digital-safety-soa.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Digital Safety Statement of Achievement image">
+                        <img src="assets/certifications/cisco-digital-safety-soa.jpg" alt="Digital Safety and Security Awareness — Statement of Achievement" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="cert-card-top">
+                      <div class="cert-issuer-circle" aria-hidden="true">C</div>
+                      <div class="cert-info">
+                        <h3 class="cert-name">Digital Safety and Security Awareness</h3>
+                        <p class="cert-org">Cisco Networking Academy &amp; OpenEDG</p>
+                        <p class="cert-via">Statement of Achievement</p>
+                      </div>
+                    </div>
+                    <p class="cert-id">&nbsp;</p>
+                    <div class="cert-card-bottom">
+                      <span class="cert-date">March 28, 2026</span>
+                      <a href="assets/certifications/DigitalSafetyandSecurityAwarenessv120260328-32-rrfu79.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">
+                        Open PDF &#8599;
+                      </a>
+                    </div>
+                  </article>
                 </div>
-              </div>
-              <div class="cert-card-bottom">
-                <span class="cert-date">[DATE]</span>
-                <a
-                  href="#"
-                  class="cert-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Certificate
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            </article>
 
-            <!-- ── Cert 3 ── -->
-            <article class="cert-card reveal reveal-delay-3">
-              <div class="cert-card-top">
-                <div class="cert-issuer-circle" aria-hidden="true">M</div>
-                <div class="cert-info">
-                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
-                  <p class="cert-org">[ISSUER]</p>
+                <!-- ── 3 of 5 · Data Analytics Essentials · Sep 29, 2025 ── -->
+                <div class="cert-slide" role="group" aria-label="Certificate 3 of 5">
+                  <article class="cert-card">
+                    <div class="cert-preview">
+                      <a href="assets/certifications/cisco-data-analytics.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Data Analytics Essentials Certificate image">
+                        <img src="assets/certifications/cisco-data-analytics.jpg" alt="Data Analytics Essentials Certificate" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="cert-card-top">
+                      <div class="cert-issuer-circle" aria-hidden="true">C</div>
+                      <div class="cert-info">
+                        <h3 class="cert-name">Data Analytics Essentials</h3>
+                        <p class="cert-org">Cisco Networking Academy</p>
+                        <p class="cert-via">Certificate of Course Completion</p>
+                      </div>
+                    </div>
+                    <p class="cert-id">&nbsp;</p>
+                    <div class="cert-card-bottom">
+                      <span class="cert-date">September 29, 2025</span>
+                      <a href="assets/certifications/cisco-data-analytics.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">
+                        Open PDF &#8599;
+                      </a>
+                    </div>
+                  </article>
                 </div>
-              </div>
-              <div class="cert-card-bottom">
-                <span class="cert-date">[DATE]</span>
-                <a
-                  href="#"
-                  class="cert-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Certificate
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            </article>
 
+                <!-- ── 4 of 5 · Certificate of Enterprise Training · Sep 3, 2025 ── -->
+                <div class="cert-slide" role="group" aria-label="Certificate 4 of 5">
+                  <article class="cert-card">
+                    <div class="cert-preview">
+                      <a href="assets/certifications/oilopa-java.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Certificate of Enterprise Training image">
+                        <img src="assets/certifications/oilopa-java.jpg" alt="Certificate of Enterprise Training" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="cert-card-top">
+                      <div class="cert-issuer-circle" aria-hidden="true">O</div>
+                      <div class="cert-info">
+                        <h3 class="cert-name">Certificate of Enterprise Training</h3>
+                        <p class="cert-org">Ollopa Corporation</p>
+                        <p class="cert-via">Programming (Java) NC III &middot; 120 Hours</p>
+                      </div>
+                    </div>
+                    <p class="cert-id">Supervised Industry Learning &middot; Fairview, Quezon City</p>
+                    <div class="cert-card-bottom">
+                      <span class="cert-date">September 3, 2025</span>
+                      <a href="assets/certifications/oilopa-java.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">
+                        Open PDF &#8599;
+                      </a>
+                    </div>
+                  </article>
+                </div>
+
+                <!-- ── 5 of 5 · Programming (Java) NC III · Aug 4, 2025 ── -->
+                <div class="cert-slide" role="group" aria-label="Certificate 5 of 5">
+                  <article class="cert-card">
+                    <div class="cert-preview">
+                      <a href="assets/certifications/tesda-java-nc3.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Programming (Java) NC III Certificate image">
+                        <img src="assets/certifications/tesda-java-nc3.jpg" alt="Programming (Java) NC III — TESDA Certificate of Training" loading="lazy">
+                      </a>
+                    </div>
+                    <div class="cert-card-top">
+                      <div class="cert-issuer-circle" aria-hidden="true">T</div>
+                      <div class="cert-info">
+                        <h3 class="cert-name">Programming (Java) NC III</h3>
+                        <p class="cert-org">TESDA &amp; NRG Info-Tech Institute</p>
+                        <p class="cert-via">Certificate of Training &middot; 360 Hours</p>
+                      </div>
+                    </div>
+                    <p class="cert-id">CTPR No: 20230505ICTPRJ321053 &middot; TWSP Scholar</p>
+                    <div class="cert-card-bottom">
+                      <span class="cert-date">August 4, 2025</span>
+                      <a href="assets/certifications/tesda-java-nc3.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">
+                        Open PDF &#8599;
+                      </a>
+                    </div>
+                  </article>
+                </div>
+
+              </div>
+              <!-- /cert-carousel-track -->
+            </div>
+            <!-- /cert-carousel -->
+
+            <!-- Next arrow -->
+            <button
+              class="cert-carousel-btn cert-carousel-btn--next"
+              id="cert-next"
+              aria-label="Next certificate"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+
+            <!-- Dot indicators -->
+            <div
+              class="cert-carousel-dots"
+              id="cert-dots"
+              role="tablist"
+              aria-label="Select certificate"
+            ></div>
           </div>
-          <!-- /certifications-grid -->
+          <!-- /cert-carousel-wrapper -->
         </div>
         <!-- /container -->
       </section>
@@ -586,71 +714,99 @@
         <div class="container">
           <div class="experience-header">
             <span class="section-label reveal">My Journey</span>
-            <h2 class="section-heading reveal reveal-delay-1">Education &amp; Experience</h2>
+            <h2 class="section-heading reveal reveal-delay-1">
+              Education &amp; Experience
+            </h2>
           </div>
 
           <div class="experience-timeline">
-
             <!-- ── Item 1: Senior High School (Completed) ── -->
             <div class="timeline-item reveal-left reveal-delay-1">
-              <div class="timeline-dot timeline-dot--completed" aria-hidden="true"></div>
+              <div
+                class="timeline-dot timeline-dot--completed"
+                aria-hidden="true"
+              ></div>
               <div class="timeline-card">
                 <div class="timeline-card-top">
                   <div class="timeline-title-group">
                     <h3 class="timeline-role">Senior High School</h3>
-                    <p class="timeline-org">[YOUR SENIOR HIGH SCHOOL NAME]</p>
-                    <p class="timeline-strand">[YOUR STRAND — e.g. ICT, STEM, ABM]</p>
-                    <small class="timeline-date">[START YEAR] – [END YEAR]</small>
+                    <p class="timeline-org">Ligao National High School</p>
+                    <p class="timeline-strand">
+                      TVL ICT — Computer System Servicing
+                    </p>
+                    <small class="timeline-date">2021 – 2023</small>
                   </div>
-                  <span class="timeline-badge timeline-badge--completed">Completed</span>
+                  <span class="timeline-badge timeline-badge--completed"
+                    >Completed</span
+                  >
                 </div>
                 <ul class="timeline-bullets">
-                  <li>[Brief line about your SHS — e.g. Completed Grade 11–12 under the ICT strand]</li>
-                  <li>[Any achievement, award, or notable activity during SHS]</li>
+                  <li>Completed Grade 11–12 under the TVL-ICT strand</li>
+                  <li>Graduated with Honors</li>
                 </ul>
               </div>
             </div>
 
             <!-- ── Item 2: BSIT (Ongoing) ── -->
             <div class="timeline-item reveal-left reveal-delay-2">
-              <div class="timeline-dot timeline-dot--ongoing" aria-hidden="true"></div>
+              <div
+                class="timeline-dot timeline-dot--ongoing"
+                aria-hidden="true"
+              ></div>
               <div class="timeline-card">
                 <div class="timeline-card-top">
                   <div class="timeline-title-group">
-                    <h3 class="timeline-role">Bachelor of Science in Information Technology</h3>
-                    <p class="timeline-org">[YOUR COLLEGE / UNIVERSITY NAME]</p>
-                    <small class="timeline-date">[START YEAR] – Present</small>
+                    <h3 class="timeline-role">
+                      Bachelor of Science in Information Technology
+                    </h3>
+                    <p class="timeline-org">Bicol University Polangui</p>
+                    <small class="timeline-date">2023 – Present</small>
                   </div>
-                  <span class="timeline-badge timeline-badge--ongoing">Ongoing</span>
+                  <span class="timeline-badge timeline-badge--ongoing"
+                    >Ongoing</span
+                  >
                 </div>
                 <ul class="timeline-bullets">
-                  <li>Currently in 3rd year, [SEMESTER] semester</li>
-                  <li>[Notable subject, project, or activity in college]</li>
-                  <li>[Any org, club, or recognition if applicable]</li>
+                  <li>Currently in 3rd year, 2nd semester</li>
+                  <li>Notable subject, project, or activity in college</li>
+                  <li>Org, club, or recognition if applicable</li>
                 </ul>
               </div>
             </div>
 
             <!-- ── Item 3: Dream Goal (Coming Soon) ── -->
             <div class="timeline-item reveal-left reveal-delay-3">
-              <div class="timeline-dot timeline-dot--future" aria-hidden="true"></div>
+              <div
+                class="timeline-dot timeline-dot--future"
+                aria-hidden="true"
+              ></div>
               <div class="timeline-card timeline-card--future">
                 <div class="timeline-card-top">
                   <div class="timeline-title-group">
-                    <h3 class="timeline-role">[Your Dream Job / Goal — e.g. Full Stack Developer]</h3>
-                    <p class="timeline-org">[Dream Company or "Future Workplace"]</p>
-                    <small class="timeline-date">[Expected graduation year] – Future</small>
+                    <h3 class="timeline-role">
+                      [Your Dream Job / Goal — e.g. Full Stack Developer]
+                    </h3>
+                    <p class="timeline-org">
+                      [Dream Company or "Future Workplace"]
+                    </p>
+                    <small class="timeline-date"
+                      >[Expected graduation year] – Future</small
+                    >
                   </div>
-                  <span class="timeline-badge timeline-badge--future">Coming Soon</span>
+                  <span class="timeline-badge timeline-badge--future"
+                    >Coming Soon</span
+                  >
                 </div>
                 <ul class="timeline-bullets">
-                  <li>Aspiring to specialize in [your interest — e.g. mobile development, web development, AI]</li>
+                  <li>
+                    Aspiring to specialize in [your interest — e.g. mobile
+                    development, web development, AI]
+                  </li>
                   <li>Open to internships and entry-level opportunities</li>
                   <li>[One more personal goal or aspiration]</li>
                 </ul>
               </div>
             </div>
-
           </div>
           <!-- /experience-timeline -->
         </div>
@@ -832,7 +988,9 @@
                       aria-hidden="true"
                       focusable="false"
                     >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <path
+                        d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                      />
                       <polyline points="15 3 21 3 21 9" />
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
@@ -904,7 +1062,9 @@
                       aria-hidden="true"
                       focusable="false"
                     >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <path
+                        d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                      />
                       <polyline points="15 3 21 3 21 9" />
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
@@ -1267,7 +1427,6 @@
         <!-- /container -->
       </section>
       <!-- /#contact -->
-
     </main>
 
     <!-- ============================================================
@@ -1434,7 +1593,6 @@
          page-section chatbot (#chat-*).
     ============================================================ -->
     <div id="gemini-widget">
-
       <!-- ── Chat panel (hidden by default) ── -->
       <div
         id="gemini-panel"
@@ -1448,7 +1606,24 @@
         <div class="gemini-header">
           <div class="gemini-header-info">
             <div class="gemini-avatar" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 8V4H8" />
+                <rect width="16" height="12" x="4" y="8" rx="2" />
+                <path d="M2 14h2" />
+                <path d="M20 14h2" />
+                <path d="M15 13v2" />
+                <path d="M9 13v2" />
+              </svg>
             </div>
             <div>
               <p class="gemini-title">AI Assistant</p>
@@ -1460,7 +1635,21 @@
             id="gemini-close"
             aria-label="Close chat panel"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
 
@@ -1495,7 +1684,21 @@
             id="gemini-send"
             aria-label="Send message"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
           </button>
         </div>
       </div>
@@ -1510,16 +1713,35 @@
         aria-controls="gemini-panel"
       >
         <!-- Red notification dot — hidden after first open -->
-        <span class="gemini-fab-badge" id="gemini-fab-badge" aria-hidden="true"></span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span
+          class="gemini-fab-badge"
+          id="gemini-fab-badge"
+          aria-hidden="true"
+        ></span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+          />
+        </svg>
       </button>
-
     </div>
     <!-- /gemini-widget -->
 
     <!-- ============================================================
-         SCRIPTS — Load order: config → chatbot → main
+         SCRIPTS — Load order: pdfjs → config → chatbot → main
     ============================================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="config.js" defer></script>
     <script src="js/chatbot.js" defer></script>
     <script src="js/main.js" defer></script>

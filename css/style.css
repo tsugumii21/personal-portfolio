@@ -133,6 +133,7 @@ body {
   -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition:       background-color 0.3s ease, color 0.3s ease;
+  overflow-x:       hidden;
 }
 
 /* Prevent scroll when mobile nav is open */
@@ -261,7 +262,7 @@ code {
       Each part replaces its section's placeholder styles.
 ================================================================ */
 
-#about, #skills, #projects, #contact, #chatbot, #certifications, #experience {
+#about, #skills, #projects, #contact, #certifications, #experience {
   min-height:      100vh;
   display:         flex;
   align-items:     center;
@@ -1928,12 +1929,178 @@ body.nav-open .nav-backdrop { opacity: 1; }
 
 
 /* ================================================================
-   36. CERTIFICATIONS — RESPONSIVE
+   36. CERTIFICATIONS — CAROUSEL
 ================================================================ */
 
+/* ── Card: flex column layout ────────────────────────────────── */
+.cert-card {
+  display:        flex;
+  flex-direction: column;
+  padding:        0;
+  overflow:       hidden;
+}
+
+/* ── Certificate image preview (top of card) ────────────────── */
+.cert-preview {
+  height:        160px;
+  overflow:      hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink:   0;
+  display:       block;
+}
+
+.cert-preview a {
+  display: block;
+  width:   100%;
+  height:  100%;
+}
+
+.cert-preview img {
+  width:         100%;
+  height:        100%;
+  object-fit:    cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+  display:       block;
+  transition:    transform 0.35s ease, filter 0.35s ease;
+}
+
+.cert-preview:hover img {
+  transform: scale(1.04);
+  filter:    brightness(0.88);
+}
+
+/* ── Inner padding regions ───────────────────────────────────── */
+.cert-card > .cert-card-top {
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-sm);
+}
+
+.cert-card > .cert-id {
+  padding: 0 var(--spacing-lg);
+}
+
+.cert-card > .cert-card-bottom {
+  padding:    var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  margin-top: auto;
+}
+
+/* ── Extra cert card details ─────────────────────────────────── */
+.cert-via {
+  font-size:   var(--text-xs);
+  color:       var(--color-accent);
+  font-weight: var(--weight-medium);
+  margin-top:  2px;
+}
+
+.cert-id {
+  font-size:      0.68rem;
+  color:          var(--color-muted);
+  font-family:    'Courier New', monospace;
+  margin-top:     var(--spacing-sm);
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  white-space:    nowrap;
+  opacity:        0.75;
+  min-height:     1.1em;
+}
+
+/* ── Wrapper: positions arrows outside the clip area ─────────── */
+.cert-carousel-wrapper {
+  position: relative;
+  padding:  0 52px;     /* room for 44px buttons + 8px gap each side */
+}
+
+/* ── Overflow clip container ─────────────────────────────────── */
+.cert-carousel {
+  overflow: hidden;
+}
+
+/* ── Sliding flex track ──────────────────────────────────────── */
+.cert-carousel-track {
+  display:    flex;
+  gap:        1.5rem;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* ── Individual slides ───────────────────────────────────────── */
+/* Desktop: 3 cards; gap = 2 × 1.5rem = 3rem */
+.cert-slide {
+  flex:      0 0 calc((100% - 3rem) / 3);
+  min-width: 0;
+}
+
+/* ── Arrow navigation buttons ────────────────────────────────── */
+.cert-carousel-btn {
+  position:         absolute;
+  top:              50%;
+  transform:        translateY(-60%); /* accounts for dots below */
+  width:            44px;
+  height:           44px;
+  border-radius:    50%;
+  border:           1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color:            var(--color-text);
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  cursor:           pointer;
+  z-index:          var(--z-raised);
+  box-shadow:       var(--shadow-sm);
+  transition:
+    background-color var(--transition-fast),
+    border-color     var(--transition-fast),
+    color            var(--transition-fast),
+    box-shadow       var(--transition-fast),
+    opacity          var(--transition-fast);
+}
+
+.cert-carousel-btn:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  border-color:     var(--color-accent);
+  color:            #ffffff;
+  box-shadow:       var(--shadow-md);
+}
+
+.cert-carousel-btn:disabled {
+  opacity: 0.35;
+  cursor:  not-allowed;
+}
+
+.cert-carousel-btn--prev { left:  0; }
+.cert-carousel-btn--next { right: 0; }
+
+/* ── Dot indicators ──────────────────────────────────────────── */
+.cert-carousel-dots {
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+  gap:             6px;
+  margin-top:      var(--spacing-xl);
+}
+
+.cert-dot {
+  height:           8px;
+  border-radius:    var(--radius-full);
+  border:           none;
+  background-color: var(--color-border);
+  cursor:           pointer;
+  transition:
+    width            0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color var(--transition-base);
+  width: 8px;
+}
+
+.cert-dot--active {
+  width:            28px;
+  background-color: var(--color-accent);
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .certifications-grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* Tablet: 2 cards visible; gap = 1 × 1.5rem */
+  .cert-slide {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
   }
 }
 
@@ -1946,9 +2113,23 @@ body.nav-open .nav-backdrop { opacity: 1; }
     margin-bottom: var(--spacing-2xl);
   }
 
+  /* Mobile: 1 card full width */
+  .cert-slide {
+    flex: 0 0 100%;
+  }
+
+  .cert-carousel-wrapper {
+    padding: 0 40px;
+  }
+
+  .cert-carousel-btn {
+    width:  36px;
+    height: 36px;
+  }
+
+  /* suppress old grid rule (no longer used) */
   .certifications-grid {
-    grid-template-columns: 1fr;
-    gap:                   var(--spacing-lg);
+    display: none;
   }
 }
 
@@ -2843,7 +3024,7 @@ html.dark .timeline-badge--ongoing {
 .scroll-top-btn {
   position:         fixed;
   bottom:           28px;
-  left:             28px;
+  right:            96px;  /* 28px FAB right + 56px FAB width + 12px gap */
   width:            48px;
   height:           48px;
   border-radius:    var(--radius-full);
@@ -2886,7 +3067,7 @@ html.dark .timeline-badge--ongoing {
 @media (max-width: 767px) {
   .scroll-top-btn {
     bottom: 16px;
-    left:   16px;
+    right:  80px;  /* 16px FAB right + 52px mobile FAB width + 12px gap */
   }
 }
 
@@ -3210,5 +3391,33 @@ html.dark .timeline-badge--ongoing {
     width:  52px;
     height: 52px;
   }
+}
+
+
+/* ================================================================
+   44. THEME-SWITCH RIPPLE ANIMATION
+       A circular ripple expands from the toggle button whenever
+       the user switches between light and dark mode.
+================================================================ */
+
+.theme-ripple {
+  position:         fixed;
+  border-radius:    50%;
+  pointer-events:   none;
+  z-index:          var(--z-toast);
+  background-color: var(--color-accent);
+  transform:        scale(0);
+  opacity:          0.18;
+  animation:        themeRippleExpand 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes themeRippleExpand {
+  0%   { transform: scale(0); opacity: 0.18; }
+  55%  { transform: scale(1); opacity: 0.10; }
+  100% { transform: scale(1); opacity: 0;    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-ripple { animation: none; opacity: 0; }
 }
 
