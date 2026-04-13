@@ -1,0 +1,1527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- ============================================================
+         META & SEO
+         Core document metadata, Open Graph tags, and viewport setup.
+    ============================================================ -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Personal portfolio of Allen Del Valle — a passionate developer crafting clean, purposeful digital experiences."
+    />
+    <meta name="author" content="Allen Del Valle" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Open Graph (for link previews on social media) -->
+    <meta property="og:title" content="Allen Del Valle — Portfolio" />
+    <meta
+      property="og:description"
+      content="Personal portfolio showcasing projects, skills, and a conversational AI assistant."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com" />
+
+    <title>Allen Del Valle — Portfolio</title>
+
+    <!-- ============================================================
+         GOOGLE FONTS
+         Playfair Display → headings | DM Sans → body text
+    ============================================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ============================================================
+         STYLESHEET
+    ============================================================ -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- ============================================================
+         NAVIGATION
+         Fixed top navbar — hamburger on mobile.
+         JS handles: .navbar--scrolled, .nav-open, active link states.
+    ============================================================ -->
+    <header id="navbar" role="banner">
+      <nav class="nav-container" aria-label="Main navigation">
+        <a
+          href="#hero"
+          class="nav-logo"
+          aria-label="Allen Del Valle — back to top"
+        >
+          Allen Del Valle
+        </a>
+
+        <ul class="nav-links" id="nav-links" role="list">
+          <li><a href="#hero" class="nav-link" data-nav-link>Home</a></li>
+          <li><a href="#about" class="nav-link" data-nav-link>About</a></li>
+          <li><a href="#skills" class="nav-link" data-nav-link>Skills</a></li>
+          <li><a href="#certifications" class="nav-link" data-nav-link>Certifications</a></li>
+          <li><a href="#experience" class="nav-link" data-nav-link>Experience</a></li>
+          <li>
+            <a href="#projects" class="nav-link" data-nav-link>Projects</a>
+          </li>
+          <li><a href="#contact" class="nav-link" data-nav-link>Contact</a></li>
+          <li>
+            <button
+              id="theme-toggle"
+              class="nav-link theme-toggle"
+              aria-label="Toggle dark mode"
+            >
+              <svg
+                id="theme-icon-moon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                ></path>
+              </svg>
+              <svg
+                id="theme-icon-sun"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                style="display: none"
+              >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </button>
+          </li>
+        </ul>
+
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-links"
+        >
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Mobile backdrop -->
+    <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+    <!-- ============================================================
+         MAIN CONTENT
+    ============================================================ -->
+    <main id="main-content" role="main">
+      <!-- ── SECTION 1: HERO ──────────────────────────────────────
+           Full-viewport intro section.
+           Layout: 2-column grid on desktop, stacked on mobile.
+           Left:  greeting, name, role, bio, CTA buttons.
+           Right: styled profile card with tech badges.
+           Animations: CSS keyframes — left elements stagger in,
+                       right card slides in from the right.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="hero" aria-label="Introduction">
+        <div class="container">
+          <div class="hero-grid">
+            <!-- ── Left column: text content ─────────────── -->
+            <div class="hero-content">
+              <!-- Greeting tag — first element to animate in -->
+              <span class="hero-greeting">Hello, I'm</span>
+
+              <!-- Primary heading — name in Playfair Display -->
+              <!-- Replace Allen Del Valle with your actual name -->
+              <h1 class="hero-name">Allen Del Valle</h1>
+
+              <!-- Role / course / title -->
+              <!-- Replace Software Engineer with your actual role -->
+              <p class="hero-role">Software Engineer</p>
+
+              <!-- Short bio / tagline (1–2 sentences) -->
+              <!-- Replace this placeholder with your real bio -->
+              <p class="hero-bio">
+                I build clean, purposeful digital experiences at the
+                intersection of design and technology. Passionate about creating
+                things that are both beautiful and functional.
+              </p>
+
+              <!-- CTA buttons -->
+              <div class="hero-actions">
+                <!-- Primary CTA: solid dark pill button -->
+                <a href="#projects" class="btn btn--dark"> View Projects </a>
+
+                <!-- Secondary CTA: outline pill button with download icon -->
+                <!-- Update href once you have a real CV file -->
+                <a href="assets/cv.pdf" class="btn btn--outline" download>
+                  <!-- Inline SVG download icon — no external dependency -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download CV
+                </a>
+              </div>
+            </div>
+            <!-- /hero-content -->
+
+            <!-- ── Right column: visual profile card ──────── -->
+            <!-- aria-hidden: this is decorative — info is in left column -->
+            <div class="hero-card-wrapper" aria-hidden="true">
+              <div class="hero-card">
+                <!-- Browser-style chrome bar -->
+                <div class="hero-card-chrome">
+                  <div class="chrome-dots">
+                    <span class="chrome-dot chrome-dot--red"></span>
+                    <span class="chrome-dot chrome-dot--yellow"></span>
+                    <span class="chrome-dot chrome-dot--green"></span>
+                  </div>
+                  <!-- Decorative filename label -->
+                  <span class="chrome-label">profile.js</span>
+                </div>
+
+                <!-- Card body content -->
+                <div class="hero-card-body">
+                  <!-- Avatar circle with initials -->
+                  <!-- Replace 'IK' with your actual initials -->
+                  <div class="hero-avatar">ADV</div>
+
+                  <!-- Name inside card — Playfair Display -->
+                  <p class="hero-card-name">Allen Del Valle</p>
+
+                  <!-- Role inside card -->
+                  <p class="hero-card-role">Software Engineer</p>
+
+                  <!-- Visual divider -->
+                  <div class="hero-card-divider"></div>
+
+                  <!-- Tech stack label and badges -->
+                  <p class="hero-card-label">Tech Stack</p>
+                  <div class="hero-badges">
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">Flutter</span>
+                    <span class="tech-badge">Dart</span>
+                  </div>
+                </div>
+                <!-- /hero-card-body -->
+
+                <!-- Decorative blurred accent circle — purely visual -->
+                <div class="hero-card-deco" aria-hidden="true"></div>
+              </div>
+              <!-- /hero-card -->
+            </div>
+            <!-- /hero-card-wrapper -->
+          </div>
+          <!-- /hero-grid -->
+        </div>
+        <!-- /container -->
+
+        <!-- Animated scroll hint at the bottom of the hero -->
+        <div class="hero-scroll-hint" aria-hidden="true">
+          <span class="scroll-hint-text">Scroll</span>
+          <div class="scroll-hint-line"></div>
+        </div>
+      </section>
+      <!-- /#hero -->
+
+      <!-- ── SECTION 2: ABOUT ─────────────────────────────────────
+           Two-column layout: profile image (left), bio + details (right).
+           All animated via IntersectionObserver (.reveal → .visible).
+      ─────────────────────────────────────────────────────────── -->
+      <section id="about" aria-label="About me">
+        <div class="container">
+          <div class="about-grid">
+            <!-- ── Left column: profile image ─────────────── -->
+            <div class="about-image-wrapper reveal">
+              <!-- Image frame: decorative offset border sits behind -->
+              <div class="about-image-frame">
+                <!-- Placeholder: shown by default, hidden when image loads -->
+                <!-- Replace 'IK' with your actual initials -->
+                <div class="about-image-placeholder" aria-hidden="true">
+                  <span>ADV</span>
+                </div>
+
+                <!-- Profile image: overlays placeholder when it loads -->
+                <!-- Add your photo as assets/profile.jpg to activate -->
+                <img
+                  src="assets/profile.jpg"
+                  alt="Profile photo of Allen Del Valle"
+                  class="about-image"
+                  loading="lazy"
+                  onerror="this.classList.add('about-image--hidden')"
+                />
+              </div>
+              <!-- /about-image-frame -->
+
+              <!-- Decorative offset rectangle — purely visual depth effect -->
+              <div class="about-image-deco" aria-hidden="true"></div>
+            </div>
+            <!-- /about-image-wrapper -->
+
+            <!-- ── Right column: bio + details ────────────── -->
+            <div class="about-content">
+              <!-- Section label — reusable .section-label utility -->
+              <span class="section-label reveal">About Me</span>
+
+              <!-- Section heading -->
+              <h2 class="section-heading reveal reveal-delay-1">Who I Am</h2>
+
+              <!-- Bio paragraphs (2–3 paragraphs about yourself) -->
+              <!-- Replace these placeholders with your real bio -->
+              <div class="about-bio reveal reveal-delay-2">
+                <p>
+                  I'm a passionate Software Engineer student at Bicol
+                  University, deeply interested in building digital experiences
+                  that are both elegant and purposeful. My journey into tech
+                  started with a curiosity about how things are made — and that
+                  curiosity never stopped.
+                </p>
+
+                <p>
+                  I specialise in front-end development and mobile applications,
+                  working with technologies like HTML, CSS, JavaScript, Flutter,
+                  and Firebase. I enjoy the challenge of turning complex ideas
+                  into clean, intuitive interfaces that real people enjoy using.
+                </p>
+
+                <p>
+                  Outside of coding, I'm drawn to [your interests — e.g. design,
+                  photography, music, open-source]. I'm always learning, always
+                  building, and always looking for meaningful problems to solve.
+                </p>
+              </div>
+              <!-- /about-bio -->
+
+              <!-- Personal details grid (semantic definition list) -->
+              <!-- Replace all placeholder values with your real information -->
+              <dl class="about-details reveal reveal-delay-3">
+                <div class="detail-item">
+                  <dt class="detail-label">Name</dt>
+                  <dd class="detail-value">Allen Del Valle</dd>
+                </div>
+
+                <div class="detail-item">
+                  <dt class="detail-label">Course</dt>
+                  <dd class="detail-value">BS Information Technology (BSIT)</dd>
+                </div>
+
+                <div class="detail-item">
+                  <dt class="detail-label">School</dt>
+                  <dd class="detail-value">Bicol University</dd>
+                </div>
+
+                <div class="detail-item">
+                  <dt class="detail-label">Location</dt>
+                  <dd class="detail-value">Ligao City, Philippines</dd>
+                </div>
+
+                <div class="detail-item detail-item--full">
+                  <dt class="detail-label">Email</dt>
+                  <dd class="detail-value">
+                    <!-- Update href with your real email address -->
+                    <a
+                      href="mailto:allendelvalle016@gmail.com"
+                      class="detail-link"
+                    >
+                      allendelvalle016@gmail.com
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+              <!-- /about-details -->
+            </div>
+            <!-- /about-content -->
+          </div>
+          <!-- /about-grid -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#about -->
+
+      <!-- ── SECTION 3: SKILLS ────────────────────────────────────
+           Centered layout with a single "Tech Stack" card.
+           Categories: Frontend, Mobile, Backend, Tools & Design,
+           Foundational Skills — sourced from GitHub profile.
+           Stagger-animated via IntersectionObserver on scroll.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="skills" aria-label="Skills and technologies">
+        <div class="container">
+          <!-- Section header — centred above the card -->
+          <div class="skills-header">
+            <span class="section-label reveal">What I Work With</span>
+            <h2 class="section-heading reveal reveal-delay-1">Tech Stack</h2>
+            <p class="section-subheading reveal reveal-delay-2">
+              Technologies and tools I use to build mobile apps, web projects,
+              and everything in between — sourced from my real GitHub
+              repositories.
+            </p>
+          </div>
+
+          <!-- ── Single unified Tech Stack card ─────────────── -->
+          <div class="skills-card reveal reveal-delay-3">
+            <!-- Browser-chrome header — matches the hero card style -->
+            <div class="skills-card-chrome">
+              <div class="chrome-dots">
+                <span class="chrome-dot chrome-dot--red"></span>
+                <span class="chrome-dot chrome-dot--yellow"></span>
+                <span class="chrome-dot chrome-dot--green"></span>
+              </div>
+              <span class="chrome-label">tech-stack.js</span>
+            </div>
+
+            <!-- Card content: all skill categories -->
+            <div class="skills-card-body">
+              <!-- ── Category: Frontend ─────────────────────── -->
+              <div class="skill-category">
+                <h3 class="skill-category-name">Frontend</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">HTML5</span>
+                  <span class="skill-tag">CSS3</span>
+                  <span class="skill-tag">JavaScript</span>
+                  <span class="skill-tag">React</span>
+                  <span class="skill-tag">Bootstrap</span>
+                  <span class="skill-tag">Responsive Design</span>
+                </div>
+              </div>
+
+              <div class="skill-divider" aria-hidden="true"></div>
+
+              <!-- ── Category: Mobile ───────────────────────── -->
+              <div class="skill-category">
+                <h3 class="skill-category-name">Mobile</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">Flutter</span>
+                  <span class="skill-tag">Dart</span>
+                </div>
+              </div>
+
+              <div class="skill-divider" aria-hidden="true"></div>
+
+              <!-- ── Category: Backend ──────────────────────── -->
+              <div class="skill-category">
+                <h3 class="skill-category-name">Backend</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">Node.js</span>
+                  <span class="skill-tag">PHP</span>
+                  <span class="skill-tag">Firebase</span>
+                  <span class="skill-tag">Supabase</span>
+                  <span class="skill-tag">MySQL</span>
+                  <span class="skill-tag">MongoDB</span>
+                </div>
+              </div>
+
+              <div class="skill-divider" aria-hidden="true"></div>
+
+              <!-- ── Category: Tools & Design ───────────────── -->
+              <div class="skill-category">
+                <h3 class="skill-category-name">Tools &amp; Design</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">Git</span>
+                  <span class="skill-tag">GitHub</span>
+                  <span class="skill-tag">VS Code</span>
+                  <span class="skill-tag">Figma</span>
+                  <span class="skill-tag">Canva</span>
+                  <span class="skill-tag">Adobe Photoshop</span>
+                </div>
+              </div>
+
+              <div class="skill-divider" aria-hidden="true"></div>
+
+              <!-- ── Category: Foundational Skills ─────────── -->
+              <div class="skill-category">
+                <h3 class="skill-category-name">Foundational Skills</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">UI Design Basics</span>
+                  <span class="skill-tag">REST API Integration</span>
+                  <span class="skill-tag">AI Integration</span>
+                  <span class="skill-tag">Version Control</span>
+                  <span class="skill-tag">C#</span>
+                  <span class="skill-tag">OOP</span>
+                </div>
+              </div>
+            </div>
+            <!-- /skills-card-body -->
+          </div>
+          <!-- /skills-card -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#skills -->
+
+      <!-- ── SECTION 4a: CERTIFICATIONS ──────────────────────────────
+           Responsive 3-col grid of certification cards.
+           Each card: issuer circle, cert name, org, date, view link.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="certifications" aria-label="Certifications">
+        <div class="container">
+          <div class="certifications-header">
+            <span class="section-label reveal">Certifications</span>
+            <h2 class="section-heading reveal reveal-delay-1">My Certifications</h2>
+          </div>
+
+          <div class="certifications-grid">
+
+            <!-- ── Cert 1 ── -->
+            <article class="cert-card reveal reveal-delay-1">
+              <div class="cert-card-top">
+                <div class="cert-issuer-circle" aria-hidden="true">G</div>
+                <div class="cert-info">
+                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
+                  <p class="cert-org">[ISSUER]</p>
+                </div>
+              </div>
+              <div class="cert-card-bottom">
+                <span class="cert-date">[DATE]</span>
+                <a
+                  href="#"
+                  class="cert-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Certificate
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <!-- ── Cert 2 ── -->
+            <article class="cert-card reveal reveal-delay-2">
+              <div class="cert-card-top">
+                <div class="cert-issuer-circle" aria-hidden="true">I</div>
+                <div class="cert-info">
+                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
+                  <p class="cert-org">[ISSUER]</p>
+                </div>
+              </div>
+              <div class="cert-card-bottom">
+                <span class="cert-date">[DATE]</span>
+                <a
+                  href="#"
+                  class="cert-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Certificate
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <!-- ── Cert 3 ── -->
+            <article class="cert-card reveal reveal-delay-3">
+              <div class="cert-card-top">
+                <div class="cert-issuer-circle" aria-hidden="true">M</div>
+                <div class="cert-info">
+                  <h3 class="cert-name">[CERTIFICATION NAME]</h3>
+                  <p class="cert-org">[ISSUER]</p>
+                </div>
+              </div>
+              <div class="cert-card-bottom">
+                <span class="cert-date">[DATE]</span>
+                <a
+                  href="#"
+                  class="cert-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Certificate
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </article>
+
+          </div>
+          <!-- /certifications-grid -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#certifications -->
+
+      <!-- ── SECTION 4b: EXPERIENCE ──────────────────────────────────
+           Vertical timeline — each entry: dot on line, role, org,
+           date badge, and bullet-point responsibilities.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="experience" aria-label="Education and experience timeline">
+        <div class="container">
+          <div class="experience-header">
+            <span class="section-label reveal">My Journey</span>
+            <h2 class="section-heading reveal reveal-delay-1">Education &amp; Experience</h2>
+          </div>
+
+          <div class="experience-timeline">
+
+            <!-- ── Item 1: Senior High School (Completed) ── -->
+            <div class="timeline-item reveal-left reveal-delay-1">
+              <div class="timeline-dot timeline-dot--completed" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <div class="timeline-card-top">
+                  <div class="timeline-title-group">
+                    <h3 class="timeline-role">Senior High School</h3>
+                    <p class="timeline-org">[YOUR SENIOR HIGH SCHOOL NAME]</p>
+                    <p class="timeline-strand">[YOUR STRAND — e.g. ICT, STEM, ABM]</p>
+                    <small class="timeline-date">[START YEAR] – [END YEAR]</small>
+                  </div>
+                  <span class="timeline-badge timeline-badge--completed">Completed</span>
+                </div>
+                <ul class="timeline-bullets">
+                  <li>[Brief line about your SHS — e.g. Completed Grade 11–12 under the ICT strand]</li>
+                  <li>[Any achievement, award, or notable activity during SHS]</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- ── Item 2: BSIT (Ongoing) ── -->
+            <div class="timeline-item reveal-left reveal-delay-2">
+              <div class="timeline-dot timeline-dot--ongoing" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <div class="timeline-card-top">
+                  <div class="timeline-title-group">
+                    <h3 class="timeline-role">Bachelor of Science in Information Technology</h3>
+                    <p class="timeline-org">[YOUR COLLEGE / UNIVERSITY NAME]</p>
+                    <small class="timeline-date">[START YEAR] – Present</small>
+                  </div>
+                  <span class="timeline-badge timeline-badge--ongoing">Ongoing</span>
+                </div>
+                <ul class="timeline-bullets">
+                  <li>Currently in 3rd year, [SEMESTER] semester</li>
+                  <li>[Notable subject, project, or activity in college]</li>
+                  <li>[Any org, club, or recognition if applicable]</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- ── Item 3: Dream Goal (Coming Soon) ── -->
+            <div class="timeline-item reveal-left reveal-delay-3">
+              <div class="timeline-dot timeline-dot--future" aria-hidden="true"></div>
+              <div class="timeline-card timeline-card--future">
+                <div class="timeline-card-top">
+                  <div class="timeline-title-group">
+                    <h3 class="timeline-role">[Your Dream Job / Goal — e.g. Full Stack Developer]</h3>
+                    <p class="timeline-org">[Dream Company or "Future Workplace"]</p>
+                    <small class="timeline-date">[Expected graduation year] – Future</small>
+                  </div>
+                  <span class="timeline-badge timeline-badge--future">Coming Soon</span>
+                </div>
+                <ul class="timeline-bullets">
+                  <li>Aspiring to specialize in [your interest — e.g. mobile development, web development, AI]</li>
+                  <li>Open to internships and entry-level opportunities</li>
+                  <li>[One more personal goal or aspiration]</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+          <!-- /experience-timeline -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#experience -->
+
+      <!-- ── SECTION 4: PROJECTS ──────────────────────────────────
+           A 3-column responsive grid of project cards.
+           Image area, title, description, tech stack tags, and links.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="projects" aria-label="Projects">
+        <div class="container">
+          <!-- Section header -->
+          <div class="projects-header">
+            <span class="section-label reveal">Portfolio</span>
+            <h2 class="section-heading reveal reveal-delay-1">
+              Featured Projects
+            </h2>
+            <p class="section-subheading reveal reveal-delay-2">
+              A selection of my recent work, highlighting my ability to build
+              clean, functional, and user-centric applications.
+            </p>
+          </div>
+
+          <!-- ── Projects Grid ─────────────────────────────────── -->
+          <div class="projects-grid">
+            <!-- ── Project 1: Sukli POS ────────────────────────────────────── -->
+            <article class="project-card reveal reveal-delay-1">
+              <div class="project-image-wrapper">
+                <div class="project-image-placeholder"></div>
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">Sukli POS</h3>
+                <p class="project-desc">
+                  A comprehensive point-of-sale system built for small
+                  businesses and stalls, supporting inventory and quick sales.
+                </p>
+                <div class="project-tags">
+                  <span class="skill-tag skill-tag--primary">Flutter</span>
+                  <span class="skill-tag">Dart</span>
+                  <span class="skill-tag">Supabase</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/tsugumii21/Sukli_POS"
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                      />
+                    </svg>
+                    Code
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- ── Project 2: MERKADO-GO ────────────────────────────────────── -->
+            <article class="project-card reveal reveal-delay-2">
+              <div class="project-image-wrapper">
+                <div class="project-image-placeholder"></div>
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">MERKADO-GO</h3>
+                <p class="project-desc">
+                  Directory and AI Assistant application specifically designed
+                  for the Ligao City Public Market.
+                </p>
+                <div class="project-tags">
+                  <span class="skill-tag skill-tag--primary">Flutter</span>
+                  <span class="skill-tag">Firebase</span>
+                  <span class="skill-tag">Dart</span>
+                  <span class="skill-tag">Gemini AI</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/tsugumii21/MERKADO-GO---Ligao-City-Public-Market-Directory-AI-Assistant"
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                      />
+                    </svg>
+                    Code
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- ── Project 3: DairiX ────────────────────────────────────── -->
+            <article class="project-card reveal reveal-delay-3">
+              <div class="project-image-wrapper">
+                <div class="project-image-placeholder"></div>
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">DairiX - Dairy Rover Ph</h3>
+                <p class="project-desc">
+                  A dairy management and logistics application to facilitate
+                  operations for Rover Ph.
+                </p>
+                <div class="project-tags">
+                  <span class="skill-tag skill-tag--primary">HTML</span>
+                  <span class="skill-tag">CSS</span>
+                  <span class="skill-tag">JavaScript</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/tsugumii21/DairiX---Dairy-Rover-Ph"
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                      />
+                    </svg>
+                    Code
+                  </a>
+                  <a
+                    href="https://tsugumii21.github.io/DairiX---Dairy-Rover-Ph/"
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Visit
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- ── Project 4: M.A.R.I.N. ────────────────────────────────────── -->
+            <article class="project-card reveal reveal-delay-4">
+              <div class="project-image-wrapper">
+                <div class="project-image-placeholder"></div>
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">M.A.R.I.N.</h3>
+                <p class="project-desc">
+                  Final project showcasing advanced capabilities and systematic
+                  software engineering design paradigms.
+                </p>
+                <div class="project-tags">
+                  <span class="skill-tag skill-tag--primary">JavaScript</span>
+                  <span class="skill-tag">Node.js</span>
+                  <span class="skill-tag">MongoDB</span>
+                  <span class="skill-tag">React</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/IkkiKobayashi/-final-project-M.A.R.I.N."
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                      />
+                    </svg>
+                    Code
+                  </a>
+                  <a
+                    href="https://final-project-m-a-r-i-n.onrender.com/"
+                    class="btn btn--outline project-btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Visit
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+          <!-- /projects-grid -->
+
+          <!-- View all projects CTA -->
+          <div class="projects-footer reveal reveal-delay-4">
+            <a
+              href="https://github.com/tsugumii21"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--outline"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+              View More on GitHub
+            </a>
+          </div>
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#projects -->
+
+      <!-- ── SECTION 5: CONTACT ───────────────────────────────────
+           Two-column layout for getting in touch.
+           Left: text and social links. Right: contact form.
+      ─────────────────────────────────────────────────────────── -->
+      <section id="contact" aria-label="Contact">
+        <div class="container">
+          <div class="contact-grid">
+            <!-- ── Left column: Text & Info ─────────────────────── -->
+            <div class="contact-info">
+              <span class="section-label reveal">Get in Touch</span>
+              <h2 class="section-heading reveal reveal-delay-1">
+                Let's Work Together
+              </h2>
+              <p class="section-subheading reveal reveal-delay-2">
+                I'm currently open for new opportunities. Whether you have a
+                question, a project idea, or just want to say hi, I'll try my
+                best to get back to you!
+              </p>
+
+              <!-- Contact details list -->
+              <ul
+                class="contact-details-list reveal reveal-delay-3"
+                role="list"
+              >
+                <!-- Email -->
+                <li class="contact-detail-item">
+                  <div class="contact-icon" aria-hidden="true">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect width="20" height="16" x="2" y="4" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                  </div>
+                  <a
+                    href="mailto:allendelvalle016@gmail.com"
+                    class="contact-detail-link"
+                    >allendelvalle016@gmail.com</a
+                  >
+                </li>
+
+                <!-- Location -->
+                <li class="contact-detail-item">
+                  <div class="contact-icon" aria-hidden="true">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                      />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </div>
+                  <span>Ligao City, Philippines</span>
+                </li>
+              </ul>
+
+              <!-- Social Links -->
+              <div class="contact-socials reveal reveal-delay-4">
+                <p class="contact-socials-title">Follow Me</p>
+                <div class="social-links-row">
+                  <!-- GitHub -->
+                  <a
+                    href="https://github.com/tsugumii21"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-circle"
+                    aria-label="GitHub profile"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                      />
+                      <path d="M9 18c-4.51 2-5-2-7-2" />
+                    </svg>
+                  </a>
+                  <!-- LinkedIn -->
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-circle"
+                    aria-label="LinkedIn profile"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                      />
+                      <rect width="4" height="12" x="2" y="9" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  </a>
+                  <!-- Instagram -->
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-circle"
+                    aria-label="Instagram profile"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                      <path
+                        d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                      />
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                    </svg>
+                  </a>
+                  <!-- Facebook -->
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-circle"
+                    aria-label="Facebook profile"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- /contact-info -->
+
+            <!-- ── Right column: Contact Form ───────────────────── -->
+            <div class="contact-form-wrapper reveal reveal-delay-3">
+              <form id="contact-form" class="contact-form" novalidate>
+                <div class="form-group">
+                  <label for="contact-name" class="form-label">Name</label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="John Doe"
+                    required
+                  />
+                  <span
+                    class="form-error"
+                    id="error-name"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    class="form-input"
+                    placeholder="john@example.com"
+                    required
+                  />
+                  <span
+                    class="form-error"
+                    id="error-email"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-subject" class="form-label"
+                    >Subject</label
+                  >
+                  <input
+                    type="text"
+                    id="contact-subject"
+                    name="subject"
+                    class="form-input"
+                    placeholder="Project Inquiry"
+                    required
+                  />
+                  <span
+                    class="form-error"
+                    id="error-subject"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-message" class="form-label"
+                    >Message</label
+                  >
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    class="form-input form-textarea"
+                    rows="5"
+                    placeholder="Hello, I'd like to talk about..."
+                    required
+                  ></textarea>
+                  <span
+                    class="form-error"
+                    id="error-message"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <!-- Submit button state changes on JS submit -->
+                <button
+                  type="submit"
+                  class="btn btn--dark btn--submit"
+                  id="contact-submit"
+                >
+                  Send Message
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+
+                <!-- Success confirmation message -->
+                <div
+                  class="form-success-msg"
+                  id="form-success-msg"
+                  aria-live="polite"
+                  aria-hidden="true"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <path d="m9 11 3 3L22 4" />
+                  </svg>
+                  <span>Thanks! I'll get back to you soon.</span>
+                </div>
+              </form>
+            </div>
+            <!-- /contact-form-wrapper -->
+          </div>
+          <!-- /contact-grid -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /#contact -->
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+    ============================================================ -->
+    <footer id="footer" class="site-footer" role="contentinfo">
+      <div class="container container--footer">
+        <!-- Left: Copyright -->
+        <div class="footer-copy">
+          <p>
+            &copy; <span id="current-year"></span> Allen Del Valle. All rights
+            reserved.
+          </p>
+        </div>
+
+        <!-- Center: Nav Links -->
+        <nav class="footer-nav" aria-label="Footer Navigation">
+          <a href="#hero" class="footer-nav-link">Home</a>
+          <a href="#about" class="footer-nav-link">About</a>
+          <a href="#skills" class="footer-nav-link">Skills</a>
+          <a href="#certifications" class="footer-nav-link">Certifications</a>
+          <a href="#experience" class="footer-nav-link">Experience</a>
+          <a href="#projects" class="footer-nav-link">Projects</a>
+          <a href="#contact" class="footer-nav-link">Contact</a>
+        </nav>
+
+        <!-- Right: Social Icons -->
+        <div class="footer-social">
+          <!-- GitHub -->
+          <a
+            href="https://github.com/tsugumii21"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            aria-label="GitHub"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+              />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>
+          <!-- LinkedIn -->
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            aria-label="LinkedIn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            aria-label="Instagram"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+            </svg>
+          </a>
+          <!-- Facebook -->
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            aria-label="Facebook"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ============================================================
+         SCROLL-TO-TOP BUTTON
+    ============================================================ -->
+    <button
+      id="scroll-top-btn"
+      class="scroll-top-btn"
+      aria-label="Scroll back to top"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m18 15-6-6-6 6" />
+      </svg>
+    </button>
+
+    <!-- ============================================================
+         FLOATING GEMINI CHATBOT WIDGET
+         Fixed bottom-right FAB + slide-up chat panel.
+         IDs all prefixed with "gemini-" to avoid clashing with the
+         page-section chatbot (#chat-*).
+    ============================================================ -->
+    <div id="gemini-widget">
+
+      <!-- ── Chat panel (hidden by default) ── -->
+      <div
+        id="gemini-panel"
+        class="gemini-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="AI Assistant chat panel"
+        aria-hidden="true"
+      >
+        <!-- Header -->
+        <div class="gemini-header">
+          <div class="gemini-header-info">
+            <div class="gemini-avatar" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            </div>
+            <div>
+              <p class="gemini-title">AI Assistant</p>
+              <p class="gemini-subtitle">[YOUR NAME]</p>
+            </div>
+          </div>
+          <button
+            class="gemini-close"
+            id="gemini-close"
+            aria-label="Close chat panel"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Messages area -->
+        <div
+          class="gemini-messages"
+          id="gemini-messages"
+          role="log"
+          aria-live="polite"
+          aria-label="Chat messages"
+        >
+          <!-- Typing indicator — always last, messages inserted before it -->
+          <div class="gemini-typing" id="gemini-typing" aria-hidden="true">
+            <span class="gemini-typing-dot"></span>
+            <span class="gemini-typing-dot"></span>
+            <span class="gemini-typing-dot"></span>
+          </div>
+        </div>
+
+        <!-- Input area -->
+        <div class="gemini-input-area">
+          <input
+            type="text"
+            class="gemini-input"
+            id="gemini-input"
+            placeholder="Ask me anything…"
+            autocomplete="off"
+            aria-label="Type your message"
+          />
+          <button
+            class="gemini-send"
+            id="gemini-send"
+            aria-label="Send message"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- /gemini-panel -->
+
+      <!-- ── FAB trigger button ── -->
+      <button
+        class="gemini-fab"
+        id="gemini-fab"
+        aria-label="Open AI chat assistant"
+        aria-expanded="false"
+        aria-controls="gemini-panel"
+      >
+        <!-- Red notification dot — hidden after first open -->
+        <span class="gemini-fab-badge" id="gemini-fab-badge" aria-hidden="true"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+
+    </div>
+    <!-- /gemini-widget -->
+
+    <!-- ============================================================
+         SCRIPTS — Load order: config → chatbot → main
+    ============================================================ -->
+    <script src="config.js" defer></script>
+    <script src="js/chatbot.js" defer></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
