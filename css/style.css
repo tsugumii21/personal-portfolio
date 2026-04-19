@@ -446,6 +446,11 @@ code {
   height:          44px;
   border-radius:   var(--radius);
   flex-shrink:     0;
+  /* Must be above the nav-links dropdown (z-index: 99) in the
+     same stacking context so the button stays clickable when
+     the menu is open */
+  position:        relative;
+  z-index:         var(--z-nav);
   transition:      background-color var(--transition-fast);
 }
 
