@@ -82,9 +82,16 @@
   --shadow-xl:  0 16px 40px rgba(0, 0, 0, 0.12);
 
   /* ── Transitions ─────────────────────── */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
+  /* expo-out: fast start, silky deceleration — the gold standard for UI */
+  --ease-out:           cubic-bezier(0.16, 1, 0.3, 1);
+  /* gentle ease — for hover colour / opacity changes */
+  --ease-in-out:        cubic-bezier(0.4, 0, 0.2, 1);
+  /* spring-like feel for micro lifts */
+  --ease-spring:        cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --transition-fast: 180ms var(--ease-in-out);
+  --transition-base: 300ms var(--ease-out);
+  --transition-slow: 500ms var(--ease-out);
 
   /* ── Z-index Scale ───────────────────── */
   --z-below:  -1;
@@ -104,6 +111,24 @@ html.dark {
   --color-text:    #f0f0f0;
   --color-muted:   #888888;
   --color-border:  #2a2a2a;
+}
+
+/* ================================================================
+   1.6 THEME TRANSITION — SMOOTH MODE SWITCH
+   Added temporarily by JS before toggling .dark on <html>.
+   Removed after the transition completes so it never fights
+   with hover/micro-interaction animations.
+================================================================ */
+html.is-theme-switching *:not(.cert-carousel-track),
+html.is-theme-switching *:not(.cert-carousel-track)::before,
+html.is-theme-switching *:not(.cert-carousel-track)::after {
+  transition:
+    background-color 0.45s ease,
+    color            0.45s ease,
+    border-color     0.45s ease,
+    box-shadow       0.45s ease,
+    fill             0.45s ease,
+    stroke           0.45s ease !important;
 }
 
 /* ================================================================
@@ -205,16 +230,16 @@ code {
 
 .reveal {
   opacity:    0;
-  transform:  translateY(24px);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transform:  translateY(32px);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
 }
 
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-.reveal-delay-1 { transition-delay: 100ms; }
-.reveal-delay-2 { transition-delay: 200ms; }
-.reveal-delay-3 { transition-delay: 300ms; }
-.reveal-delay-4 { transition-delay: 400ms; }
+.reveal-delay-1 { transition-delay: 80ms;  }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
 .reveal-delay-5 { transition-delay: 500ms; }
 
 
@@ -366,7 +391,7 @@ code {
   border-radius:    var(--radius-full);
   transform:        scaleX(0);
   transform-origin: left center;
-  transition:       transform var(--transition-base);
+  transition:       transform 0.35s var(--ease-out);
 }
 
 .nav-link:hover            { color: var(--color-accent); }
@@ -534,7 +559,7 @@ body.nav-open .nav-backdrop {
 @keyframes heroFadeUp {
   from {
     opacity:   0;
-    transform: translateY(28px);
+    transform: translateY(40px);
   }
   to {
     opacity:   1;
@@ -546,7 +571,7 @@ body.nav-open .nav-backdrop {
 @keyframes heroSlideRight {
   from {
     opacity:   0;
-    transform: translateX(48px);
+    transform: translateX(64px);
   }
   to {
     opacity:   1;
@@ -556,8 +581,8 @@ body.nav-open .nav-backdrop {
 
 /* Scroll hint: gentle fade + bob loop */
 @keyframes heroScrollBob {
-  0%, 100% { transform: translateY(0);  opacity: 0.5; }
-  50%       { transform: translateY(6px); opacity: 1;   }
+  0%, 100% { transform: translateY(0);   opacity: 0.5; }
+  50%       { transform: translateY(8px); opacity: 1;   }
 }
 
 
@@ -617,7 +642,7 @@ body.nav-open .nav-backdrop {
   letter-spacing: 0.04em;
 
   /* Stagger animation — first to arrive */
-  animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 0ms;
 }
 
@@ -631,7 +656,7 @@ body.nav-open .nav-backdrop {
   letter-spacing: -0.03em;
 
   /* Stagger animation */
-  animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 120ms;
 }
 
@@ -643,7 +668,7 @@ body.nav-open .nav-backdrop {
   color:          var(--color-muted);
   line-height:    var(--leading-snug);
 
-  animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 220ms;
 }
 
@@ -654,7 +679,7 @@ body.nav-open .nav-backdrop {
   line-height: var(--leading-relaxed);
   max-width:   48ch;   /* Optimal reading line length */
 
-  animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 320ms;
 }
 
@@ -665,7 +690,7 @@ body.nav-open .nav-backdrop {
   gap:         var(--spacing-md);
   flex-wrap:   wrap;
 
-  animation: heroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 440ms;
 }
 
@@ -696,11 +721,11 @@ body.nav-open .nav-backdrop {
 
   /* Smooth all interactive state transitions */
   transition:
-    background-color var(--transition-base),
-    color            var(--transition-fast),
-    border-color     var(--transition-base),
-    transform        var(--transition-fast),
-    box-shadow       var(--transition-base);
+    background-color 0.3s var(--ease-in-out),
+    color            0.2s var(--ease-in-out),
+    border-color     0.3s var(--ease-in-out),
+    transform        0.35s var(--ease-spring),
+    box-shadow       0.35s var(--ease-out);
 
   /* Minimum touch target */
   min-height: 48px;
@@ -708,7 +733,7 @@ body.nav-open .nav-backdrop {
 
 /* Press feedback — slight scale-down */
 .btn:active {
-  transform:  scale(0.97);
+  transform:  scale(0.96);
   box-shadow: none;
 }
 
@@ -759,8 +784,8 @@ body.nav-open .nav-backdrop {
   justify-content:  center;
   align-items:      center;
 
-  animation: heroSlideRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 300ms;
+  animation: heroSlideRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 200ms;
 }
 
 /* ── Card outer shell ───────────────────────────────────────── */
@@ -774,13 +799,13 @@ body.nav-open .nav-backdrop {
   overflow:      hidden;
   position:      relative;
 
-  /* Subtle lift on hover */
-  transition:    transform var(--transition-slow), box-shadow var(--transition-slow);
+  /* Subtle spring-lift on hover */
+  transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-out);
 }
 
 .hero-card:hover {
-  transform:  translateY(-6px);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.14);
+  transform:  translateY(-8px);
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.16);
 }
 
 /* ── Browser-chrome toolbar ─────────────────────────────────── */
@@ -825,9 +850,10 @@ body.nav-open .nav-backdrop {
 
 /* ── Card body ──────────────────────────────────────────────── */
 .hero-card-body {
-  padding:  var(--spacing-2xl);
-  position: relative;  /* Stacking context for decorative element */
-  z-index:  var(--z-base);
+  padding:    var(--spacing-2xl);
+  position:   relative;  /* Stacking context for decorative element */
+  z-index:    var(--z-base);
+  text-align: center;  /* Center all text and inline/flex children */
 }
 
 /* ── Avatar circle ──────────────────────────────────────────── */
@@ -845,6 +871,8 @@ body.nav-open .nav-backdrop {
   justify-content:  center;
   margin-bottom:    var(--spacing-lg);
   letter-spacing:   0.05em;
+  margin-left:      auto;  /* Center the avatar circle */
+  margin-right:     auto;
 
   /* Outlined ring for definition */
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
@@ -888,9 +916,10 @@ body.nav-open .nav-backdrop {
 
 /* ── Tech badge container ───────────────────────────────────── */
 .hero-badges {
-  display:   flex;
-  flex-wrap: wrap;
-  gap:       var(--spacing-sm);
+  display:         flex;
+  flex-wrap:       wrap;
+  gap:             var(--spacing-sm);
+  justify-content: center;  /* Center the badges row */
 }
 
 /* ── Individual tech badge ──────────────────────────────────── */
@@ -1544,17 +1573,17 @@ body.nav-open .nav-backdrop {
 
   /* Smooth interaction feedback */
   transition:
-    background-color var(--transition-fast),
-    border-color     var(--transition-fast),
-    color            var(--transition-fast),
-    transform        var(--transition-fast);
+    background-color 0.2s var(--ease-in-out),
+    border-color     0.2s var(--ease-in-out),
+    color            0.2s var(--ease-in-out),
+    transform        0.3s var(--ease-spring);
 }
 
 .skill-tag:hover {
   background-color: var(--color-text);
   border-color:     var(--color-text);
   color:            var(--color-bg);
-  transform:        translateY(-1px);
+  transform:        translateY(-2px);
 }
 
 /* ── Primary variant (Flutter / Dart — dominant in GitHub) ──── */
@@ -1668,13 +1697,13 @@ body.nav-open .nav-backdrop {
   overflow:         hidden;  /* Clip the top corners of the image */
 
   transition:
-    transform  var(--transition-slow),
-    box-shadow var(--transition-slow);
+    transform  0.45s var(--ease-spring),
+    box-shadow 0.45s var(--ease-out);
 }
 
 /* Hover lift effect */
 .project-card:hover {
-  transform:  translateY(-6px);
+  transform:  translateY(-8px);
   box-shadow: var(--shadow-xl);
 }
 
@@ -2069,7 +2098,7 @@ body.nav-open .nav-backdrop {
 .cert-carousel-track {
   display:    flex;
   gap:        1.5rem;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);  /* Expo-out — feels weighty & smooth */
   will-change: transform;
 }
 
@@ -3095,10 +3124,10 @@ html.dark .timeline-badge--ongoing {
   transform:        translateY(20px);
   
   transition:
-    opacity          var(--transition-base),
-    visibility       var(--transition-base),
-    transform        var(--transition-base),
-    background-color var(--transition-fast);
+    opacity          0.4s var(--ease-out),
+    visibility       0.4s var(--ease-out),
+    transform        0.4s var(--ease-spring),
+    background-color 0.2s var(--ease-in-out);
   
   box-shadow: var(--shadow-lg);
 }
@@ -3112,7 +3141,7 @@ html.dark .timeline-badge--ongoing {
 
 .scroll-top-btn:hover {
   background-color: var(--color-accent);
-  transform:        translateY(-4px);
+  transform:        translateY(-5px);
 }
 
 @media (max-width: 767px) {

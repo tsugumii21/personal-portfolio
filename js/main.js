@@ -475,10 +475,14 @@ if (themeToggle) {
     document.body.appendChild(ripple);
     ripple.addEventListener('animationend', function () { ripple.remove(); });
 
-    /* ── Switch the theme ── */
-    document.documentElement.classList.toggle('dark');
+    /* ── Enable global color transitions for the duration of the switch ── */
+    const html = document.documentElement;
+    html.classList.add('is-theme-switching');
 
-    if (document.documentElement.classList.contains('dark')) {
+    /* ── Switch the theme ── */
+    html.classList.toggle('dark');
+
+    if (html.classList.contains('dark')) {
       localStorage.setItem('theme', 'dark');
       if (themeIconMoon) themeIconMoon.style.display = 'none';
       if (themeIconSun)  themeIconSun.style.display  = 'block';
@@ -487,6 +491,12 @@ if (themeToggle) {
       if (themeIconMoon) themeIconMoon.style.display = 'block';
       if (themeIconSun)  themeIconSun.style.display  = 'none';
     }
+
+    /* ── Remove the transition class after all elements have finished ── */
+    /* 500ms > 0.45s transition so every element is guaranteed to finish */
+    setTimeout(function () {
+      html.classList.remove('is-theme-switching');
+    }, 500);
   });
 }
 
@@ -562,11 +572,11 @@ if (themeToggle) {
     nextBtn.disabled = current >= maxIndex();
   }
 
-  /* ── Auto-advance ── */
+  /* ── Auto-advance — every 4 seconds ── */
   function startAuto() {
     autoTimer = setInterval(function () {
       goTo(current >= maxIndex() ? 0 : current + 1);
-    }, 6000);
+    }, 4000);
   }
 
   function stopAuto()  { clearInterval(autoTimer); }
