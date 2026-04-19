@@ -110,7 +110,6 @@ html.dark {
   --color-surface: #2D2D2D;
   --color-text:    #EFEFEF;
   --color-muted:   #909090;
-  --color-accent:  #C9A97A;
   --color-border:  #3A3A3A;
 }
 
@@ -2473,15 +2472,10 @@ html.dark .gemini-msg--bot {
   color:            var(--color-text);
 }
 
-/* Chatbot user bubble: accent bg with dark text (not white) */
-html.dark .gemini-msg--user {
-  color: #212121;
-}
-
 /* Scroll-to-top: accent background in dark mode */
 html.dark .scroll-top-btn {
   background-color: var(--color-accent);
-  color:            #212121;
+  color:            #ffffff;
 }
 
 /* ── Dot variants ───────────────────────────────────────────── */
