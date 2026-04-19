@@ -106,11 +106,12 @@
    1.5 DARK MODE TOKENS
 ================================================================ */
 html.dark {
-  --color-bg:      #0f0f0f;
-  --color-surface: #1a1a1a;
-  --color-text:    #f0f0f0;
-  --color-muted:   #888888;
-  --color-border:  #2a2a2a;
+  --color-bg:      #212121;
+  --color-surface: #2D2D2D;
+  --color-text:    #EFEFEF;
+  --color-muted:   #909090;
+  --color-accent:  #C9A97A;
+  --color-border:  #3A3A3A;
 }
 
 /* ================================================================
@@ -2435,6 +2436,52 @@ body.nav-open .nav-backdrop {
 html.dark .timeline-badge--ongoing {
   background-color: #1A3D20;
   color:            #6FCF8A;
+}
+
+/* ================================================================
+   DARK MODE COMPONENT OVERRIDES
+   Elements that intentionally use --color-bg in light mode but
+   need --color-surface (one step lighter) in dark mode for contrast,
+   plus accent/color fixes that cannot be resolved by variables alone.
+================================================================ */
+
+/* Project cards: surface bg (not bg) so cards lift off the page */
+html.dark .project-card {
+  background-color: var(--color-surface);
+}
+
+/* Cert cards: same lift-off treatment */
+html.dark .cert-card {
+  background-color: var(--color-surface);
+}
+
+/* Form inputs: slightly lighter than the page background */
+html.dark .form-input {
+  background-color: var(--color-surface);
+  border-color:     var(--color-border);
+  color:            var(--color-text);
+}
+html.dark .form-input::placeholder {
+  color:   var(--color-muted);
+  opacity: 1;
+}
+
+/* Chatbot AI bubble: surface bg so it differs from the page */
+html.dark .gemini-msg--bot {
+  background-color: var(--color-surface);
+  border-color:     var(--color-border);
+  color:            var(--color-text);
+}
+
+/* Chatbot user bubble: accent bg with dark text (not white) */
+html.dark .gemini-msg--user {
+  color: #212121;
+}
+
+/* Scroll-to-top: accent background in dark mode */
+html.dark .scroll-top-btn {
+  background-color: var(--color-accent);
+  color:            #212121;
 }
 
 /* ── Dot variants ───────────────────────────────────────────── */
