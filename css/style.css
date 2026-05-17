@@ -23,7 +23,7 @@
   --color-success:      #16a34a;
 
   /* ── Typography ──────────────────────── */
-  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Outfit', system-ui, sans-serif;
   --font-body:    'DM Sans', system-ui, sans-serif;
 
   /* Font sizes */
@@ -97,6 +97,8 @@
   --z-below:  -1;
   --z-base:    0;
   --z-raised:  10;
+  --z-overlay: 90;
+  --z-backdrop: 95;
   --z-nav:     100;
   --z-modal:   200;
   --z-toast:   300;
@@ -106,11 +108,11 @@
    1.5 DARK MODE TOKENS
 ================================================================ */
 html.dark {
-  --color-bg:      #212121;
-  --color-surface: #2D2D2D;
+  --color-bg:      #0A0A0F;
+  --color-surface: #16141D;
   --color-text:    #EFEFEF;
   --color-muted:   #909090;
-  --color-border:  #3A3A3A;
+  --color-border:  rgba(255, 255, 255, 0.08);
 }
 
 /* ================================================================
@@ -123,12 +125,12 @@ html.is-theme-switching *:not(.cert-carousel-track),
 html.is-theme-switching *:not(.cert-carousel-track)::before,
 html.is-theme-switching *:not(.cert-carousel-track)::after {
   transition:
-    background-color 0.45s ease,
-    color            0.45s ease,
-    border-color     0.45s ease,
-    box-shadow       0.45s ease,
-    fill             0.45s ease,
-    stroke           0.45s ease !important;
+    background-color 0.45s var(--ease-out),
+    color            0.45s var(--ease-out),
+    border-color     0.45s var(--ease-out),
+    box-shadow       0.45s var(--ease-out),
+    fill             0.45s var(--ease-out),
+    stroke           0.45s var(--ease-out) !important;
 }
 
 /* ================================================================
@@ -157,7 +159,7 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition:       background-color 0.3s ease, color 0.3s ease;
+  transition:       background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
   overflow-x:       hidden;
 }
 
@@ -413,7 +415,7 @@ code {
 }
 
 .nav-cta::after   { display: none; }
-.nav-cta:hover    { background-color: var(--color-accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); color: #ffffff !important; }
+.nav-cta:hover    { background-color: var(--color-accent-hover); transform: translateY(-1px); box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25); color: #ffffff !important; }
 
 .nav-cta:active { transform: translateY(0); box-shadow: none; }
 
@@ -462,7 +464,7 @@ code {
   height:           2px;
   background-color: var(--color-text);
   border-radius:    var(--radius-full);
-  transition:       transform var(--transition-base), opacity var(--transition-fast), width var(--transition-base);
+  transition:       transform var(--transition-base), opacity var(--transition-fast);
   transform-origin: center;
 }
 
@@ -476,12 +478,13 @@ code {
   position:         fixed;
   inset:            0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index:          95;     /* below nav-links (99) but above page content */
+  z-index:          var(--z-backdrop);     /* below nav-links (99) but above page content */
   opacity:          0;
   pointer-events:   none;   /* never block clicks when invisible */
   transition:       opacity var(--transition-base);
   backdrop-filter:  blur(2px);
-}
+
+  border-bottom: 1px solid var(--color-border);}
 
 body.nav-open .nav-backdrop {
   opacity:        1;
@@ -513,7 +516,7 @@ body.nav-open .nav-backdrop {
     gap:              var(--spacing-xs);
     background-color: var(--color-bg);
     border-bottom:    1px solid var(--color-border);
-    box-shadow:       var(--shadow-lg);
+    box-shadow: 0 20px 30px -5px rgba(124, 58, 237, 0.35);
     z-index:          calc(var(--z-nav) - 1);
     opacity:          0;
     transform:        translateY(-12px);
@@ -752,8 +755,8 @@ body.nav-open .nav-backdrop {
 .btn--dark:hover {
   background-color: #333333;
   border-color:     #333333;
-  transform:        translateY(-2px);
-  box-shadow:       var(--shadow-md);
+  transform: translateY(-4px) scale(1.01) rotate(0.3deg);
+  box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25);
 }
 
 /* ── Variant: Outline pill ──────────────────────────────────── */
@@ -766,7 +769,7 @@ body.nav-open .nav-backdrop {
 .btn--outline:hover {
   background-color: var(--color-surface);
   border-color:     var(--color-text);
-  transform:        translateY(-2px);
+  transform: translateY(-4px) scale(1.01) rotate(0.3deg);
   box-shadow:       var(--shadow-sm);
 }
 
@@ -986,7 +989,7 @@ body.nav-open .nav-backdrop {
   gap:            var(--spacing-sm);
 
   /* Delayed reveal so it appears after the hero animates in */
-  animation: heroFadeUp 0.6s ease both;
+  animation: heroFadeUp 0.6s var(--ease-out) both;
   animation-delay: 900ms;
 }
 
@@ -1004,7 +1007,7 @@ body.nav-open .nav-backdrop {
   height:           36px;
   background:       linear-gradient(to bottom, var(--color-accent), transparent);
   border-radius:    var(--radius-full);
-  animation:        heroScrollBob 1.8s ease-in-out infinite;
+  animation:        heroScrollBob 1.8s var(--ease-in-out) infinite;
 }
 
 
@@ -1475,7 +1478,7 @@ body.nav-open .nav-backdrop {
   background:    var(--color-bg);
   border:        1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  box-shadow:    var(--shadow-lg);
+  box-shadow: 0 20px 30px -5px rgba(124, 58, 237, 0.35);
   overflow:      hidden;
 
   /* Lift on hover — subtle and satisfying */
@@ -1483,7 +1486,7 @@ body.nav-open .nav-backdrop {
 }
 
 .skills-card:hover {
-  transform:  translateY(-4px);
+  transform: translateY(-6px) scale(1.01) rotate(0.5deg);
   box-shadow: var(--shadow-xl);
 }
 
@@ -1588,7 +1591,7 @@ body.nav-open .nav-backdrop {
   background-color: var(--color-text);
   border-color:     var(--color-text);
   color:            var(--color-bg);
-  transform:        translateY(-2px);
+  transform: translateY(-4px) scale(1.01) rotate(0.3deg);
 }
 
 /* ── Primary variant (Flutter / Dart — dominant in GitHub) ──── */
@@ -1925,8 +1928,8 @@ body.nav-open .nav-backdrop {
 }
 
 .cert-card:hover {
-  transform:  translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform:  translateY(-6px) scale(1.01) rotate(0.5deg);
+  box-shadow: 0 20px 30px -5px rgba(124, 58, 237, 0.35);
 }
 
 /* ── Top row: issuer circle + name/org ──────────────────────── */
@@ -2046,7 +2049,7 @@ body.nav-open .nav-backdrop {
   object-fit:    cover;
   border-radius: var(--radius) var(--radius) 0 0;
   display:       block;
-  transition:    transform 0.35s ease, filter 0.35s ease;
+  transition:    transform 0.35s var(--ease-out), filter 0.35s var(--ease-out);
 }
 
 .cert-preview:hover img {
@@ -2103,7 +2106,7 @@ body.nav-open .nav-backdrop {
 .cert-carousel-track {
   display:    flex;
   gap:        1.5rem;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);  /* Expo-out — feels weighty & smooth */
+  transition: transform 0.65s var(--ease-out);  /* Expo-out — feels weighty & smooth */
   will-change: transform;
 }
 
@@ -2143,7 +2146,7 @@ body.nav-open .nav-backdrop {
   background-color: var(--color-accent);
   border-color:     var(--color-accent);
   color:            #ffffff;
-  box-shadow:       var(--shadow-md);
+  box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25);
 }
 
 .cert-carousel-btn:disabled {
@@ -2265,7 +2268,7 @@ body.nav-open .nav-backdrop {
   left:             9px;    /* Center of the 20px dot (20/2 - 1px) */
   width:            2px;
   background-color: var(--color-border);
-  z-index:          0;
+  z-index:          var(--z-base);
 }
 
 
@@ -2492,7 +2495,7 @@ html.dark .scroll-top-btn {
   background-color: var(--color-accent);
   border-color:     var(--color-bg);
   box-shadow:       0 0 0 2px var(--color-accent);
-  animation:        dotPulse 2.2s ease-in-out infinite;
+  animation:        dotPulse 2.2s var(--ease-in-out) infinite;
 }
 
 @keyframes dotPulse {
@@ -2645,7 +2648,7 @@ html.dark .scroll-top-btn {
   background-color: var(--color-text);
   border-color:     var(--color-text);
   color:            var(--color-bg);
-  transform:        translateY(-2px);
+  transform: translateY(-4px) scale(1.01) rotate(0.3deg);
 }
 
 
@@ -2658,7 +2661,7 @@ html.dark .scroll-top-btn {
   border:           1px solid var(--color-border);
   border-radius:    var(--radius-xl);
   padding:          var(--spacing-2xl);
-  box-shadow:       var(--shadow-lg);
+  box-shadow: 0 20px 30px -5px rgba(124, 58, 237, 0.35);
 }
 
 .contact-form {
@@ -2757,7 +2760,7 @@ html.dark .scroll-top-btn {
   text-align:      center;
   margin-top:      var(--spacing-sm);
 
-  animation: heroFadeUp var(--transition-base) ease forwards;
+  animation: heroFadeUp var(--transition-base) forwards;
 }
 
 .form-success-msg.is-visible {
@@ -2868,7 +2871,7 @@ html.dark .scroll-top-btn {
   border-radius:    var(--radius-full);
   background-color: var(--color-success);
   box-shadow:       0 0 0 2px rgba(34, 197, 94, 0.2);
-  animation:        pulse-glow 2s infinite ease-in-out;
+  animation:        pulse-glow 2s infinite var(--ease-in-out);
 }
 
 @keyframes pulse-glow {
@@ -2913,7 +2916,7 @@ html.dark .scroll-top-btn {
   display:   flex;
   gap:       var(--spacing-sm);
   max-width: 85%;
-  animation: heroFadeUp var(--transition-fast) ease-out forwards;
+  animation: heroFadeUp var(--transition-fast) forwards;
 }
 
 /* Bot (Left aligned) */
@@ -2989,7 +2992,7 @@ html.dark .scroll-top-btn {
   height:           6px;
   border-radius:    var(--radius-full);
   background-color: var(--color-muted);
-  animation:        typingBounce 1.4s infinite ease-in-out both;
+  animation:        typingBounce 1.4s infinite var(--ease-in-out) both;
 }
 
 .typing-dot:nth-child(1) { animation-delay: -0.32s; }
@@ -3126,7 +3129,7 @@ html.dark .scroll-top-btn {
   background-color: var(--color-text);
   color:            var(--color-bg);
   border-color:     var(--color-text);
-  transform:        translateY(-2px);
+  transform: translateY(-4px) scale(1.01) rotate(0.3deg);
 }
 
 /* ── Responsive Footer ──────────────────────────────────────── */
@@ -3162,7 +3165,7 @@ html.dark .scroll-top-btn {
   align-items:      center;
   justify-content:  center;
   cursor:           pointer;
-  z-index:          90;
+  z-index:          var(--z-overlay);
   
   /* Hidden by default */
   opacity:          0;
@@ -3175,7 +3178,7 @@ html.dark .scroll-top-btn {
     transform        0.4s var(--ease-spring),
     background-color 0.2s var(--ease-in-out);
   
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 30px -5px rgba(124, 58, 237, 0.35);
 }
 
 /* Shown via JS class */
@@ -3381,7 +3384,7 @@ html.dark .scroll-top-btn {
   line-height: var(--leading-relaxed);
   padding:     var(--spacing-sm) var(--spacing-md);
   word-break:  break-word;
-  animation:   geminiMsgIn 0.2s ease-out both;
+  animation:   geminiMsgIn 0.2s var(--ease-out) both;
 }
 
 @keyframes geminiMsgIn {
@@ -3427,7 +3430,7 @@ html.dark .scroll-top-btn {
   height:           6px;
   border-radius:    50%;
   background-color: var(--color-muted);
-  animation:        geminiDotBounce 1.3s infinite ease-in-out both;
+  animation:        geminiDotBounce 1.3s infinite var(--ease-in-out) both;
 }
 
 .gemini-typing-dot:nth-child(1) { animation-delay: -0.32s; }
