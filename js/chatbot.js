@@ -4,11 +4,12 @@
    Purpose:
      Part 1 — Page-section chatbot (#chat-messages, #chat-input …)
      Part 2 — Floating Gemini widget (#gemini-panel, #gemini-fab …)
-   Dependencies: config.js (must load first — exposes GEMINI_API_KEY)
+   Dependencies: 
+     - config.js (must load first — exposes GEMINI_API_KEY)
+     - gemini-service.js (must load before this file)
 ================================================================ */
 
 'use strict';
-
 
 /* ================================================================
    PART 1 — PAGE-SECTION CHATBOT
@@ -28,9 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ── API setup ──────────────────────────────────────────── */
   const API_KEY = typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : '';
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
-
-  /* ── System prompt + conversation history ───────────────── */
+  
   const SYSTEM_PROMPT = `
 You are a helpful assistant representing Allen Del Valle, a Bachelor of Science in
 Information Technology (BSIT) student at Bicol University.
@@ -40,10 +39,10 @@ If asked something you don't know, say you're not sure but they can reach out vi
 Do not use markdown formatting blocks for simple text.
   `.trim();
 
-  let conversationHistory = [
-    { role: 'user',  parts: [{ text: SYSTEM_PROMPT }] },
-    { role: 'model', parts: [{ text: 'Understood. I will act as the virtual assistant and answer questions concisely and professionally.' }] }
-  ];
+  /* Initialize GeminiService */
+  const gemini = window.GeminiService ? 
+    new window.GeminiService(API_KEY, SYSTEM_PROMPT, 'Understood. I will act as the virtual assistant and answer questions concisely and professionally.') : 
+    null;
 
   /* ── Utilities ──────────────────────────────────────────── */
   function scrollToBottom() {
@@ -90,8 +89,8 @@ Do not use markdown formatting blocks for simple text.
     const message = chatInput.value.trim();
     if (!message) return;
 
-    if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-      addMessageToUI('bot', 'API key not configured. Please add your Gemini API key to config.js.');
+    if (!gemini) {
+      addMessageToUI('bot', 'GeminiService is missing. Please check script imports.');
       return;
     }
 
@@ -100,38 +99,22 @@ Do not use markdown formatting blocks for simple text.
     chatSendBtn.disabled  = true;
 
     addMessageToUI('user', message);
-    conversationHistory.push({ role: 'user', parts: [{ text: message }] });
-
     typingIndicator.classList.add('is-typing');
     scrollToBottom();
 
     try {
-      const response = await fetch(API_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          contents: conversationHistory,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 150 }
-        })
-      });
-
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const data = await response.json();
-      let botReply = 'I\'m not sure about that. Try asking something else!';
-      if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-        botReply = data.candidates[0].content.parts[0].text;
-      }
-
+      const reply = await gemini.sendMessage(message);
       typingIndicator.classList.remove('is-typing');
-      addMessageToUI('bot', botReply);
-      conversationHistory.push({ role: 'model', parts: [{ text: botReply }] });
-
+      addMessageToUI('bot', reply);
     } catch (error) {
       console.error('Section chatbot error:', error);
       typingIndicator.classList.remove('is-typing');
-      addMessageToUI('bot', 'Sorry, I had trouble connecting. Please try again.');
-      conversationHistory.pop();
+      
+      if (error.code === 'MISSING_API_KEY') {
+        addMessageToUI('bot', 'API key not configured. Please add your Gemini API key to config.js.');
+      } else {
+        addMessageToUI('bot', 'Sorry, I had trouble connecting. Please try again.');
+      }
     } finally {
       chatInput.disabled   = false;
       chatSendBtn.disabled = false;
@@ -152,8 +135,7 @@ Do not use markdown formatting blocks for simple text.
 /* ================================================================
    PART 2 — FLOATING GEMINI WIDGET
    Powers the fixed FAB + slide-up chat panel (#gemini-*).
-   Shares the same GEMINI_API_KEY from config.js but maintains its
-   own separate conversation history.
+   Maintains its own separate conversation history via GeminiService.
 ================================================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -173,16 +155,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ── API setup ──────────────────────────────────────────── */
   const API_KEY = typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : '';
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
-
-  /* ── System prompt ──────────────────────────────────────── */
   const SYSTEM_PROMPT = `You are a helpful AI assistant for Allen Del Valle, a Bachelor of Science in Information Technology (BSIT) student at Bicol University. Answer questions about their skills, projects, and background. Be friendly, concise, and professional. Do not use markdown formatting.`;
 
-  /* ── Conversation history (separate from section chatbot) ── */
-  let history = [
-    { role: 'user',  parts: [{ text: SYSTEM_PROMPT }] },
-    { role: 'model', parts: [{ text: 'Understood. I\'m ready to help answer questions.' }] }
-  ];
+  /* Initialize GeminiService */
+  const gemini = window.GeminiService ? 
+    new window.GeminiService(API_KEY, SYSTEM_PROMPT, 'Understood. I\'m ready to help answer questions.') : 
+    null;
 
   /* ── State ──────────────────────────────────────────────── */
   let isOpen         = false;
@@ -251,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const text = input.value.trim();
     if (!text) return;
 
-    if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-      addBotMessage('API key not configured. Please add your Gemini API key to config.js.');
+    if (!gemini) {
+      addBotMessage('GeminiService is missing. Please check script imports.');
       return;
     }
 
@@ -262,40 +240,24 @@ document.addEventListener('DOMContentLoaded', function () {
     sendBtn.disabled = true;
 
     addUserMessage(text);
-    history.push({ role: 'user', parts: [{ text }] });
 
     /* Show typing indicator */
     typing.classList.add('is-active');
     scrollToLatest();
 
     try {
-      const res = await fetch(API_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          contents: history,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 200 }
-        })
-      });
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const data = await res.json();
-      let reply = 'I\'m not sure about that. Try asking something else!';
-      if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-        reply = data.candidates[0].content.parts[0].text;
-      }
-
+      const reply = await gemini.sendMessage(text);
       typing.classList.remove('is-active');
       addBotMessage(reply);
-      history.push({ role: 'model', parts: [{ text: reply }] });
-
     } catch (err) {
       console.error('Floating widget error:', err);
       typing.classList.remove('is-active');
-      addBotMessage('Sorry, I had trouble connecting. Please try again.');
-      /* Remove the failed turn so history stays consistent */
-      history.pop();
+      
+      if (err.code === 'MISSING_API_KEY') {
+        addBotMessage('API key not configured. Please add your Gemini API key to config.js.');
+      } else {
+        addBotMessage('Sorry, I had trouble connecting. Please try again.');
+      }
     } finally {
       input.disabled   = false;
       sendBtn.disabled = false;
