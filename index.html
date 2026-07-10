@@ -1192,8 +1192,8 @@
       <!-- /#projects -->
 
       <!-- ── SECTION 4.5: GITHUB CONTRIBUTIONS ────────────────────
-           A custom stylized contribution calendar widget.
-           Displays contribution cells as dots of varying sizes.
+           A custom premium contribution calendar widget.
+           Displays live contribution data in Bicol University/portfolio-themed colors.
       ─────────────────────────────────────────────────────────── -->
       <section id="github-contributions" aria-label="GitHub Contributions">
         <div class="container">
@@ -1206,20 +1206,49 @@
               </a>
             </div>
             
-            <!-- Dynamic Grid Container -->
+            <!-- Dynamic Grid Container with Month & Weekday Labels -->
             <div class="github-grid-scroll">
-              <div class="github-grid" id="github-grid">
-                <!-- JavaScript will populate 371 dots here -->
+              <div class="github-calendar-wrapper">
+                <!-- Months row -->
+                <div class="github-months" id="github-months">
+                  <!-- JS will populate month labels here aligned with columns -->
+                </div>
+                
+                <div class="github-grid-body">
+                  <!-- Weekdays column -->
+                  <div class="github-weekdays">
+                    <span>Mon</span>
+                    <span>Wed</span>
+                    <span>Fri</span>
+                  </div>
+                  
+                  <!-- Actual grid of rounded cells -->
+                  <div class="github-grid" id="github-grid">
+                    <!-- JavaScript will populate 371 dots here -->
+                  </div>
+                </div>
               </div>
             </div>
             
             <!-- Footer matching reference image -->
             <div class="github-card-footer">
-              <span class="github-count-text">1,432 CONTRIBUTIONS IN THE LAST YEAR</span>
+              <span class="github-count-text" id="github-count-text">0 CONTRIBUTIONS IN THE LAST YEAR</span>
+              
+              <!-- Color Legend -->
+              <div class="github-legend">
+                <span>Less</span>
+                <span class="legend-box level-0" title="No contributions"></span>
+                <span class="legend-box level-1" title="1-2 contributions"></span>
+                <span class="legend-box level-2" title="3-5 contributions"></span>
+                <span class="legend-box level-3" title="6-8 contributions"></span>
+                <span class="legend-box level-4" title="9+ contributions"></span>
+                <span>More</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
 
       <!-- ── SECTION 5: CONTACT ───────────────────────────────────

@@ -569,64 +569,191 @@ if (themeToggle) {
    - Dot sizes represent commit activity level
    - Centered inside CSS Grid cells
 ════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════
+   GITHUB CONTRIBUTIONS GRAPH GENERATOR
+   - Fetches live contribution data from the public jogruber API
+   - Falls back gracefully to high-fidelity simulation if offline/rate-limited
+   - Dynamically positions month labels aligned with grid columns
+   - Renders interactive rounded squares with premium CSS transitions
+════════════════════════════════════════════════════════════════ */
 (function initGithubContributions() {
   var grid = document.getElementById('github-grid');
-  if (!grid) return;
+  var monthsContainer = document.getElementById('github-months');
+  var countText = document.getElementById('github-count-text');
+  
+  if (!grid || !monthsContainer || !countText) return;
 
-  var totalDots = 53 * 7; // 371 days
-  var levels = [];
+  var username = 'tsugumii21';
+  var totalDays = 53 * 7; // 371 days (53 weeks)
+  
+  // Create date array ending today
+  var dates = [];
+  var today = new Date();
+  for (var i = totalDays - 1; i >= 0; i--) {
+    var d = new Date(today);
+    d.setDate(today.getDate() - i);
+    dates.push(d);
+  }
 
-  // Generate a realistic clustered contribution history
-  for (var w = 0; w < 53; w++) {
-    // Generate a base activity level for this week using wave patterns + noise
-    var weekFactor = Math.sin(w / 3.5) * 0.45 + Math.sin(w / 12) * 0.3 + 0.35; // ranges from -0.4 to 1.1
-    if (weekFactor < 0) weekFactor = 0; // complete dry weeks
+  // Try loading live data
+  fetch('https://github-contributions-api.jogruber.de/v4/' + username)
+    .then(function(res) {
+      if (!res.ok) throw new Error('API request failed');
+      return res.json();
+    })
+    .then(function(data) {
+      if (!data || !data.contributions) throw new Error('Invalid data format');
+      
+      // Map API array to key-value object for quick lookup
+      var apiDataMap = {};
+      data.contributions.forEach(function(item) {
+        apiDataMap[item.date] = {
+          count: item.count,
+          level: item.level
+        };
+      });
 
-    for (var d = 0; d < 7; d++) {
-      var level = 0;
-      if (weekFactor > 0) {
-        var rand = Math.random();
-        // Day-specific probability influenced by the week factor
-        if (rand < 0.12 * weekFactor) {
-          level = 4;
-        } else if (rand < 0.28 * weekFactor) {
-          level = 3;
-        } else if (rand < 0.52 * weekFactor) {
-          level = 2;
-        } else if (rand < 0.8 * weekFactor) {
-          level = 1;
+      var parsedContributions = [];
+      var totalCount = 0;
+
+      // Match dates with API values
+      dates.forEach(function(date) {
+        var dateStr = formatDate(date);
+        var match = apiDataMap[dateStr];
+        var level = match ? match.level : 0;
+        var count = match ? match.count : 0;
+        
+        totalCount += count;
+        parsedContributions.push({
+          date: dateStr,
+          level: level,
+          count: count
+        });
+      });
+
+      renderCalendar(parsedContributions, totalCount);
+    })
+    .catch(function(err) {
+      console.warn('[GitHub Widget] Live load failed, rendering simulated fallback:', err);
+      generateSimulatedData();
+    });
+
+  // Format Date to YYYY-MM-DD
+  function formatDate(date) {
+    var y = date.getFullYear();
+    var m = String(date.getMonth() + 1).padStart(2, '0');
+    var d = String(date.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + d;
+  }
+
+  // Fallback Simulation Generator
+  function generateSimulatedData() {
+    var simulatedContributions = [];
+    var totalCount = 0;
+
+    for (var w = 0; w < 53; w++) {
+      // Wave activity pattern
+      var weekFactor = Math.sin(w / 3.5) * 0.45 + Math.sin(w / 12) * 0.3 + 0.35;
+      if (weekFactor < 0) weekFactor = 0;
+
+      for (var d = 0; d < 7; d++) {
+        var level = 0;
+        var count = 0;
+        if (weekFactor > 0) {
+          var rand = Math.random();
+          if (rand < 0.12 * weekFactor) {
+            level = 4;
+            count = Math.floor(Math.random() * 5) + 9; // 9-13
+          } else if (rand < 0.28 * weekFactor) {
+            level = 3;
+            count = Math.floor(Math.random() * 3) + 6;  // 6-8
+          } else if (rand < 0.52 * weekFactor) {
+            level = 2;
+            count = Math.floor(Math.random() * 3) + 3;  // 3-5
+          } else if (rand < 0.80 * weekFactor) {
+            level = 1;
+            count = Math.floor(Math.random() * 2) + 1;  // 1-2
+          }
+        }
+        totalCount += count;
+        simulatedContributions.push({
+          date: formatDate(dates[w * 7 + d]),
+          level: level,
+          count: count
+        });
+      }
+    }
+    
+    // Inject key high commit days for realism
+    var highlightDays = [12, 13, 14, 50, 52, 53, 54, 120, 121, 230, 232, 233, 234, 250, 255, 270, 271, 272, 273, 274, 275, 276];
+    highlightDays.forEach(function(dayIdx) {
+      if (dayIdx < simulatedContributions.length) {
+        var prevCount = simulatedContributions[dayIdx].count;
+        var newCount = Math.floor(Math.random() * 6) + 8; // 8-13
+        simulatedContributions[dayIdx].level = newCount > 8 ? 4 : 3;
+        simulatedContributions[dayIdx].count = newCount;
+        totalCount += (newCount - prevCount);
+      }
+    });
+
+    renderCalendar(simulatedContributions, totalCount);
+  }
+
+  // Common Calendar Rendering
+  function renderCalendar(contributions, totalCount) {
+    grid.innerHTML = '';
+    monthsContainer.innerHTML = '';
+    
+    // Update total count footer
+    countText.textContent = totalCount.toLocaleString() + ' CONTRIBUTIONS IN THE LAST YEAR';
+
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var lastMonth = -1;
+
+    // Render Month labels and Day Cells
+    var fragment = document.createDocumentFragment();
+    
+    for (var i = 0; i < totalDays; i++) {
+      var dateObj = dates[i];
+      var item = contributions[i];
+      var weekIndex = Math.floor(i / 7);
+      var dayIndex = i % 7;
+
+      // Handle Month Labels (Check first day of each week)
+      if (dayIndex === 0) {
+        var currentMonth = dateObj.getMonth();
+        if (currentMonth !== lastMonth) {
+          // Render month label aligned with current column (18px = 14px cell + 4px gap)
+          var label = document.createElement('span');
+          label.className = 'month-label';
+          label.textContent = monthNames[currentMonth];
+          label.style.left = (weekIndex * 18) + 'px';
+          monthsContainer.appendChild(label);
+          lastMonth = currentMonth;
         }
       }
-      levels.push(level);
+
+      // Render cells
+      var cell = document.createElement('div');
+      cell.className = 'github-grid-cell';
+
+      var square = document.createElement('span');
+      square.className = 'github-dot level-' + item.level;
+      
+      // Accessibility descriptions
+      var formattedDate = dateObj.toLocaleDateString(undefined, { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      });
+      var tooltipText = (item.count === 0 ? 'No' : item.count) + ' contributions on ' + formattedDate;
+      square.setAttribute('aria-label', tooltipText);
+      square.setAttribute('title', tooltipText);
+
+      cell.appendChild(square);
+      fragment.appendChild(cell);
     }
+    grid.appendChild(fragment);
   }
-
-  // Pre-configured "active" design spots for specific days/weeks (so it doesn't look purely random)
-  // Let's add some massive commit days in a few spots to match the references
-  var highlightDays = [12, 13, 14, 50, 52, 53, 54, 120, 121, 230, 232, 233, 234, 250, 255, 270, 271, 272, 273, 274, 275, 276];
-  highlightDays.forEach(function(dayIdx) {
-    if (dayIdx < totalDots) {
-      levels[dayIdx] = Math.floor(Math.random() * 2) + 3; // level 3 or 4
-    }
-  });
-
-  // Render the elements
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < totalDots; i++) {
-    var cell = document.createElement('div');
-    cell.className = 'github-grid-cell';
-
-    var dot = document.createElement('span');
-    dot.className = 'github-dot level-' + levels[i];
-    
-    // Add tooltip/aria-label for accessibility
-    var contributionsText = levels[i] === 0 ? 'No' : levels[i] * 3 + (levels[i] === 4 ? 4 : 0);
-    dot.setAttribute('aria-label', contributionsText + ' contributions on day ' + (i + 1));
-    dot.setAttribute('title', contributionsText + ' contributions');
-
-    cell.appendChild(dot);
-    fragment.appendChild(cell);
-  }
-  grid.appendChild(fragment);
 }());
 

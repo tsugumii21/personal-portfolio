@@ -1883,73 +1883,162 @@ body.nav-open .nav-backdrop {
   -webkit-overflow-scrolling: touch;
 }
 
-.github-grid {
-  display: grid;
-  grid-template-rows: repeat(7, 16px);
-  grid-auto-flow: column;
-  grid-auto-columns: 16px;
-  gap: 4px;
-  justify-content: start;
+.github-calendar-wrapper {
+  display: flex;
+  flex-direction: column;
   width: max-content;
   margin: 0 auto;
 }
 
+.github-months {
+  display: flex;
+  margin-left: 36px; /* Offset to align with weekdays column */
+  margin-bottom: 8px;
+  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 10px;
+  color: var(--color-muted);
+  height: 14px;
+  position: relative;
+}
+
+.month-label {
+  position: absolute;
+  font-size: 10px;
+}
+
+.github-grid-body {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.github-weekdays {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 122px; /* Perfect match for 7 rows (14px + 4px gap = 18px * 7 - 4 = 122px) */
+  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 10px;
+  color: var(--color-muted);
+  padding: 2px 0;
+  text-align: right;
+  width: 24px;
+}
+
+.github-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 14px);
+  grid-auto-flow: column;
+  grid-auto-columns: 14px;
+  gap: 4px;
+  width: max-content;
+}
+
 .github-grid-cell {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .github-dot {
-  border-radius: 50%;
-  background-color: var(--color-text);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--transition-fast);
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--transition-fast), box-shadow var(--transition-fast);
   will-change: transform;
 }
 
 .github-dot:hover {
-  transform: scale(1.4);
+  transform: scale(1.3);
+  box-shadow: 0 0 8px var(--color-accent);
+  z-index: 2;
 }
 
+/* Premium purple scale for light mode */
 .github-dot.level-0 {
-  width: 3px;
-  height: 3px;
-  background-color: var(--color-muted);
-  opacity: 0.22;
+  background-color: var(--color-border);
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .github-dot.level-1 {
-  width: 5px;
-  height: 5px;
-  opacity: 0.7;
+  background-color: #E9E3FC;
 }
 
 .github-dot.level-2 {
-  width: 8px;
-  height: 8px;
-  opacity: 0.9;
+  background-color: #CBB9FA;
 }
 
 .github-dot.level-3 {
-  width: 11px;
-  height: 11px;
+  background-color: #9C7CF8;
 }
 
 .github-dot.level-4 {
-  width: 15px;
-  height: 15px;
+  background-color: var(--color-accent);
+}
+
+/* Dark mode overrides for purple scale */
+html.dark .github-dot.level-0 {
+  background-color: #1a1a24;
+  border-color: rgba(255, 255, 255, 0.02);
+}
+
+html.dark .github-dot.level-1 {
+  background-color: #2D1A54;
+}
+
+html.dark .github-dot.level-2 {
+  background-color: #4C2885;
+}
+
+html.dark .github-dot.level-3 {
+  background-color: #7C3AED;
+}
+
+html.dark .github-dot.level-4 {
+  background-color: #C084FC;
 }
 
 .github-card-footer {
   margin-top: var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
   font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-muted);
 }
+
+.github-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend-box.level-0 { background-color: var(--color-border); }
+.legend-box.level-1 { background-color: #E9E3FC; }
+.legend-box.level-2 { background-color: #CBB9FA; }
+.legend-box.level-3 { background-color: #9C7CF8; }
+.legend-box.level-4 { background-color: var(--color-accent); }
+
+html.dark .legend-box.level-0 { background-color: #1a1a24; }
+html.dark .legend-box.level-1 { background-color: #2D1A54; }
+html.dark .legend-box.level-2 { background-color: #4C2885; }
+html.dark .legend-box.level-3 { background-color: #7C3AED; }
+html.dark .legend-box.level-4 { background-color: #C084FC; }
+
 
 
 
