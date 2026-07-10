@@ -561,3 +561,72 @@ if (themeToggle) {
       });
   });
 }());
+
+/* ════════════════════════════════════════════════════════════════
+   GITHUB CONTRIBUTIONS GRAPH GENERATOR
+   - Generates 53 weeks * 7 days of dot elements
+   - Simulates a natural clustered contribution pattern
+   - Dot sizes represent commit activity level
+   - Centered inside CSS Grid cells
+════════════════════════════════════════════════════════════════ */
+(function initGithubContributions() {
+  var grid = document.getElementById('github-grid');
+  if (!grid) return;
+
+  var totalDots = 53 * 7; // 371 days
+  var levels = [];
+
+  // Generate a realistic clustered contribution history
+  for (var w = 0; w < 53; w++) {
+    // Generate a base activity level for this week using wave patterns + noise
+    var weekFactor = Math.sin(w / 3.5) * 0.45 + Math.sin(w / 12) * 0.3 + 0.35; // ranges from -0.4 to 1.1
+    if (weekFactor < 0) weekFactor = 0; // complete dry weeks
+
+    for (var d = 0; d < 7; d++) {
+      var level = 0;
+      if (weekFactor > 0) {
+        var rand = Math.random();
+        // Day-specific probability influenced by the week factor
+        if (rand < 0.12 * weekFactor) {
+          level = 4;
+        } else if (rand < 0.28 * weekFactor) {
+          level = 3;
+        } else if (rand < 0.52 * weekFactor) {
+          level = 2;
+        } else if (rand < 0.8 * weekFactor) {
+          level = 1;
+        }
+      }
+      levels.push(level);
+    }
+  }
+
+  // Pre-configured "active" design spots for specific days/weeks (so it doesn't look purely random)
+  // Let's add some massive commit days in a few spots to match the references
+  var highlightDays = [12, 13, 14, 50, 52, 53, 54, 120, 121, 230, 232, 233, 234, 250, 255, 270, 271, 272, 273, 274, 275, 276];
+  highlightDays.forEach(function(dayIdx) {
+    if (dayIdx < totalDots) {
+      levels[dayIdx] = Math.floor(Math.random() * 2) + 3; // level 3 or 4
+    }
+  });
+
+  // Render the elements
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < totalDots; i++) {
+    var cell = document.createElement('div');
+    cell.className = 'github-grid-cell';
+
+    var dot = document.createElement('span');
+    dot.className = 'github-dot level-' + levels[i];
+    
+    // Add tooltip/aria-label for accessibility
+    var contributionsText = levels[i] === 0 ? 'No' : levels[i] * 3 + (levels[i] === 4 ? 4 : 0);
+    dot.setAttribute('aria-label', contributionsText + ' contributions on day ' + (i + 1));
+    dot.setAttribute('title', contributionsText + ' contributions');
+
+    cell.appendChild(dot);
+    fragment.appendChild(cell);
+  }
+  grid.appendChild(fragment);
+}());
+
