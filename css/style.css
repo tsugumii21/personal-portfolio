@@ -1957,46 +1957,46 @@ body.nav-open .nav-backdrop {
 }
 
 /* Premium purple scale for light mode */
-.github-dot.level-0 {
-  background-color: var(--color-border);
-  border: 1px solid rgba(0, 0, 0, 0.03);
+.github-card .level-0 {
+  background-color: #D2D2DC;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.github-dot.level-1 {
-  background-color: #E9E3FC;
-}
-
-.github-dot.level-2 {
+.github-card .level-1 {
   background-color: #CBB9FA;
 }
 
-.github-dot.level-3 {
+.github-card .level-2 {
   background-color: #9C7CF8;
 }
 
-.github-dot.level-4 {
+.github-card .level-3 {
   background-color: var(--color-accent);
 }
 
+.github-card .level-4 {
+  background-color: #4C1D95;
+}
+
 /* Dark mode overrides for purple scale */
-html.dark .github-dot.level-0 {
+html.dark .github-card .level-0 {
   background-color: #1a1a24;
   border-color: rgba(255, 255, 255, 0.02);
 }
 
-html.dark .github-dot.level-1 {
+html.dark .github-card .level-1 {
   background-color: #2D1A54;
 }
 
-html.dark .github-dot.level-2 {
+html.dark .github-card .level-2 {
   background-color: #4C2885;
 }
 
-html.dark .github-dot.level-3 {
+html.dark .github-card .level-3 {
   background-color: #7C3AED;
 }
 
-html.dark .github-dot.level-4 {
+html.dark .github-card .level-4 {
   background-color: #C084FC;
 }
 
@@ -2026,18 +2026,6 @@ html.dark .github-dot.level-4 {
   height: 10px;
   border-radius: 2px;
 }
-
-.legend-box.level-0 { background-color: var(--color-border); }
-.legend-box.level-1 { background-color: #E9E3FC; }
-.legend-box.level-2 { background-color: #CBB9FA; }
-.legend-box.level-3 { background-color: #9C7CF8; }
-.legend-box.level-4 { background-color: var(--color-accent); }
-
-html.dark .legend-box.level-0 { background-color: #1a1a24; }
-html.dark .legend-box.level-1 { background-color: #2D1A54; }
-html.dark .legend-box.level-2 { background-color: #4C2885; }
-html.dark .legend-box.level-3 { background-color: #7C3AED; }
-html.dark .legend-box.level-4 { background-color: #C084FC; }
 
 
 
