@@ -1857,7 +1857,7 @@ body.nav-open .nav-backdrop {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-xl);
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-heading);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1894,7 +1894,7 @@ body.nav-open .nav-backdrop {
   display: flex;
   margin-left: 36px; /* Offset to align with weekdays column */
   margin-bottom: 8px;
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-body);
   font-size: 10px;
   color: var(--color-muted);
   height: 14px;
@@ -1917,7 +1917,7 @@ body.nav-open .nav-backdrop {
   flex-direction: column;
   justify-content: space-between;
   height: 122px; /* Perfect match for 7 rows (14px + 4px gap = 18px * 7 - 4 = 122px) */
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-body);
   font-size: 10px;
   color: var(--color-muted);
   padding: 2px 0;
@@ -2007,7 +2007,7 @@ html.dark .github-dot.level-4 {
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-md);
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;

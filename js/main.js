@@ -577,195 +577,213 @@ if (themeToggle) {
    - Renders interactive rounded squares with premium CSS transitions
 ════════════════════════════════════════════════════════════════ */
 (function initGithubContributions() {
-  var grid = document.getElementById('github-grid');
-  var monthsContainer = document.getElementById('github-months');
-  var countText = document.getElementById('github-count-text');
-  
-  if (!grid || !monthsContainer || !countText) return;
+  try {
+    console.log('[GitHub Widget] Initializing...');
+    var grid = document.getElementById('github-grid');
+    var monthsContainer = document.getElementById('github-months');
+    var countText = document.getElementById('github-count-text');
+    
+    console.log('[GitHub Widget] DOM Elements:', { 
+      grid: !!grid, 
+      monthsContainer: !!monthsContainer, 
+      countText: !!countText 
+    });
+    
+    if (!grid || !monthsContainer || !countText) {
+      console.warn('[GitHub Widget] Required elements not found. Stopping.');
+      return;
+    }
 
-  var username = 'tsugumii21';
-  var totalDays = 53 * 7; // 371 days (53 weeks)
-  
-  // Create date array ending today
-  var dates = [];
-  var today = new Date();
-  for (var i = totalDays - 1; i >= 0; i--) {
-    var d = new Date(today);
-    d.setDate(today.getDate() - i);
-    dates.push(d);
-  }
+    var username = 'tsugumii21';
+    var totalDays = 53 * 7; // 371 days (53 weeks)
+    
+    // Create date array ending today
+    var dates = [];
+    var today = new Date();
+    for (var i = totalDays - 1; i >= 0; i--) {
+      var d = new Date(today);
+      d.setDate(today.getDate() - i);
+      dates.push(d);
+    }
 
-  // Try loading live data with backward-compatibility safety checks
-  if (typeof fetch === 'function') {
-    fetch('https://github-contributions-api.jogruber.de/v4/' + username)
-      .then(function(res) {
-        if (!res.ok) throw new Error('API request failed');
-        return res.json();
-      })
-      .then(function(data) {
-        if (!data || !data.contributions) throw new Error('Invalid data format');
-        
-        // Map API array to key-value object for quick lookup
-        var apiDataMap = {};
-        data.contributions.forEach(function(item) {
-          apiDataMap[item.date] = {
-            count: item.count,
-            level: item.level
-          };
-        });
-
-        var parsedContributions = [];
-        var totalCount = 0;
-
-        // Match dates with API values
-        dates.forEach(function(date) {
-          var dateStr = formatDate(date);
-          var match = apiDataMap[dateStr];
-          var level = match ? match.level : 0;
-          var count = match ? match.count : 0;
+    // Try loading live data with backward-compatibility safety checks
+    if (typeof fetch === 'function') {
+      console.log('[GitHub Widget] Fetching live data for ' + username + '...');
+      fetch('https://github-contributions-api.jogruber.de/v4/' + username)
+        .then(function(res) {
+          if (!res.ok) throw new Error('API request failed');
+          return res.json();
+        })
+        .then(function(data) {
+          if (!data || !data.contributions) throw new Error('Invalid data format');
           
+          console.log('[GitHub Widget] Live data fetched successfully.');
+          // Map API array to key-value object for quick lookup
+          var apiDataMap = {};
+          data.contributions.forEach(function(item) {
+            apiDataMap[item.date] = {
+              count: item.count,
+              level: item.level
+            };
+          });
+
+          var parsedContributions = [];
+          var totalCount = 0;
+
+          // Match dates with API values
+          dates.forEach(function(date) {
+            var dateStr = formatDate(date);
+            var match = apiDataMap[dateStr];
+            var level = match ? match.level : 0;
+            var count = match ? match.count : 0;
+            
+            totalCount += count;
+            parsedContributions.push({
+              date: dateStr,
+              level: level,
+              count: count
+            });
+          });
+
+          renderCalendar(parsedContributions, totalCount);
+        })
+        .catch(function(err) {
+          console.warn('[GitHub Widget] Live load failed, rendering simulated fallback:', err);
+          generateSimulatedData();
+        });
+    } else {
+      console.warn('[GitHub Widget] Fetch API not supported in this browser, rendering simulated fallback');
+      generateSimulatedData();
+    }
+
+    // Format Date to YYYY-MM-DD (ES5 compatible)
+    function formatDate(date) {
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      var d = date.getDate();
+      var mStr = m < 10 ? '0' + m : m;
+      var dStr = d < 10 ? '0' + d : d;
+      return y + '-' + mStr + '-' + dStr;
+    }
+
+    // Fallback Simulation Generator
+    function generateSimulatedData() {
+      console.log('[GitHub Widget] Generating fallback simulation...');
+      var simulatedContributions = [];
+      var totalCount = 0;
+
+      for (var w = 0; w < 53; w++) {
+        // Wave activity pattern
+        var weekFactor = Math.sin(w / 3.5) * 0.45 + Math.sin(w / 12) * 0.3 + 0.35;
+        if (weekFactor < 0) weekFactor = 0;
+
+        for (var d = 0; d < 7; d++) {
+          var level = 0;
+          var count = 0;
+          if (weekFactor > 0) {
+            var rand = Math.random();
+            if (rand < 0.12 * weekFactor) {
+              level = 4;
+              count = Math.floor(Math.random() * 5) + 9; // 9-13
+            } else if (rand < 0.28 * weekFactor) {
+              level = 3;
+              count = Math.floor(Math.random() * 3) + 6;  // 6-8
+            } else if (rand < 0.52 * weekFactor) {
+              level = 2;
+              count = Math.floor(Math.random() * 3) + 3;  // 3-5
+            } else if (rand < 0.80 * weekFactor) {
+              level = 1;
+              count = Math.floor(Math.random() * 2) + 1;  // 1-2
+            }
+          }
           totalCount += count;
-          parsedContributions.push({
-            date: dateStr,
+          simulatedContributions.push({
+            date: formatDate(dates[w * 7 + d]),
             level: level,
             count: count
           });
-        });
-
-        renderCalendar(parsedContributions, totalCount);
-      })
-      .catch(function(err) {
-        console.warn('[GitHub Widget] Live load failed, rendering simulated fallback:', err);
-        generateSimulatedData();
+        }
+      }
+      
+      // Inject key high commit days for realism
+      var highlightDays = [12, 13, 14, 50, 52, 53, 54, 120, 121, 230, 232, 233, 234, 250, 255, 270, 271, 272, 273, 274, 275, 276];
+      highlightDays.forEach(function(dayIdx) {
+        if (dayIdx < simulatedContributions.length) {
+          var prevCount = simulatedContributions[dayIdx].count;
+          var newCount = Math.floor(Math.random() * 6) + 8; // 8-13
+          simulatedContributions[dayIdx].level = newCount > 8 ? 4 : 3;
+          simulatedContributions[dayIdx].count = newCount;
+          totalCount += (newCount - prevCount);
+        }
       });
-  } else {
-    console.warn('[GitHub Widget] Fetch API not supported in this browser, rendering simulated fallback');
-    generateSimulatedData();
-  }
 
-  // Format Date to YYYY-MM-DD (ES5 compatible)
-  function formatDate(date) {
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    var d = date.getDate();
-    var mStr = m < 10 ? '0' + m : m;
-    var dStr = d < 10 ? '0' + d : d;
-    return y + '-' + mStr + '-' + dStr;
-  }
+      renderCalendar(simulatedContributions, totalCount);
+    }
 
-  // Fallback Simulation Generator
-  function generateSimulatedData() {
-    var simulatedContributions = [];
-    var totalCount = 0;
+    // Common Calendar Rendering
+    function renderCalendar(contributions, totalCount) {
+      grid.innerHTML = '';
+      monthsContainer.innerHTML = '';
+      
+      // Update total count footer
+      countText.textContent = totalCount.toLocaleString() + ' CONTRIBUTIONS IN THE LAST YEAR';
 
-    for (var w = 0; w < 53; w++) {
-      // Wave activity pattern
-      var weekFactor = Math.sin(w / 3.5) * 0.45 + Math.sin(w / 12) * 0.3 + 0.35;
-      if (weekFactor < 0) weekFactor = 0;
+      var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var lastMonth = -1;
 
-      for (var d = 0; d < 7; d++) {
-        var level = 0;
-        var count = 0;
-        if (weekFactor > 0) {
-          var rand = Math.random();
-          if (rand < 0.12 * weekFactor) {
-            level = 4;
-            count = Math.floor(Math.random() * 5) + 9; // 9-13
-          } else if (rand < 0.28 * weekFactor) {
-            level = 3;
-            count = Math.floor(Math.random() * 3) + 6;  // 6-8
-          } else if (rand < 0.52 * weekFactor) {
-            level = 2;
-            count = Math.floor(Math.random() * 3) + 3;  // 3-5
-          } else if (rand < 0.80 * weekFactor) {
-            level = 1;
-            count = Math.floor(Math.random() * 2) + 1;  // 1-2
+      // Render Month labels and Day Cells
+      var fragment = document.createDocumentFragment();
+      
+      for (var i = 0; i < totalDays; i++) {
+        var dateObj = dates[i];
+        var item = contributions[i];
+        var weekIndex = Math.floor(i / 7);
+        var dayIndex = i % 7;
+
+        // Handle Month Labels (Check first day of each week)
+        if (dayIndex === 0) {
+          var currentMonth = dateObj.getMonth();
+          if (currentMonth !== lastMonth) {
+            // Render month label aligned with current column (18px = 14px cell + 4px gap)
+            var label = document.createElement('span');
+            label.className = 'month-label';
+            label.textContent = monthNames[currentMonth];
+            label.style.left = (weekIndex * 18) + 'px';
+            monthsContainer.appendChild(label);
+            lastMonth = currentMonth;
           }
         }
-        totalCount += count;
-        simulatedContributions.push({
-          date: formatDate(dates[w * 7 + d]),
-          level: level,
-          count: count
-        });
-      }
-    }
-    
-    // Inject key high commit days for realism
-    var highlightDays = [12, 13, 14, 50, 52, 53, 54, 120, 121, 230, 232, 233, 234, 250, 255, 270, 271, 272, 273, 274, 275, 276];
-    highlightDays.forEach(function(dayIdx) {
-      if (dayIdx < simulatedContributions.length) {
-        var prevCount = simulatedContributions[dayIdx].count;
-        var newCount = Math.floor(Math.random() * 6) + 8; // 8-13
-        simulatedContributions[dayIdx].level = newCount > 8 ? 4 : 3;
-        simulatedContributions[dayIdx].count = newCount;
-        totalCount += (newCount - prevCount);
-      }
-    });
 
-    renderCalendar(simulatedContributions, totalCount);
-  }
+        // Render cells
+        var cell = document.createElement('div');
+        cell.className = 'github-grid-cell';
 
-  // Common Calendar Rendering
-  function renderCalendar(contributions, totalCount) {
-    grid.innerHTML = '';
-    monthsContainer.innerHTML = '';
-    
-    // Update total count footer
-    countText.textContent = totalCount.toLocaleString() + ' CONTRIBUTIONS IN THE LAST YEAR';
-
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var lastMonth = -1;
-
-    // Render Month labels and Day Cells
-    var fragment = document.createDocumentFragment();
-    
-    for (var i = 0; i < totalDays; i++) {
-      var dateObj = dates[i];
-      var item = contributions[i];
-      var weekIndex = Math.floor(i / 7);
-      var dayIndex = i % 7;
-
-      // Handle Month Labels (Check first day of each week)
-      if (dayIndex === 0) {
-        var currentMonth = dateObj.getMonth();
-        if (currentMonth !== lastMonth) {
-          // Render month label aligned with current column (18px = 14px cell + 4px gap)
-          var label = document.createElement('span');
-          label.className = 'month-label';
-          label.textContent = monthNames[currentMonth];
-          label.style.left = (weekIndex * 18) + 'px';
-          monthsContainer.appendChild(label);
-          lastMonth = currentMonth;
+        var square = document.createElement('span');
+        square.className = 'github-dot level-' + item.level;
+        
+        // Accessibility descriptions
+        var formattedDate = '';
+        try {
+          formattedDate = dateObj.toLocaleDateString(undefined, { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          });
+        } catch (e) {
+          formattedDate = dateObj.toDateString();
         }
+        var tooltipText = (item.count === 0 ? 'No' : item.count) + ' contributions on ' + formattedDate;
+        square.setAttribute('aria-label', tooltipText);
+        square.setAttribute('title', tooltipText);
+
+        cell.appendChild(square);
+        fragment.appendChild(cell);
       }
-
-      // Render cells
-      var cell = document.createElement('div');
-      cell.className = 'github-grid-cell';
-
-      var square = document.createElement('span');
-      square.className = 'github-dot level-' + item.level;
-      
-      // Accessibility descriptions
-      var formattedDate = '';
-      try {
-        formattedDate = dateObj.toLocaleDateString(undefined, { 
-          month: 'short', 
-          day: 'numeric', 
-          year: 'numeric' 
-        });
-      } catch (e) {
-        formattedDate = dateObj.toDateString();
-      }
-      var tooltipText = (item.count === 0 ? 'No' : item.count) + ' contributions on ' + formattedDate;
-      square.setAttribute('aria-label', tooltipText);
-      square.setAttribute('title', tooltipText);
-
-      cell.appendChild(square);
-      fragment.appendChild(cell);
+      grid.appendChild(fragment);
+      console.log('[GitHub Widget] Successfully rendered ' + contributions.length + ' cells.');
     }
-    grid.appendChild(fragment);
+  } catch (err) {
+    console.error('[GitHub Widget] Critical error during execution:', err);
   }
 }());
 
