@@ -446,9 +446,10 @@ if (themeToggle) {
 
   /* ── Auto-advance — every 4 seconds ── */
   function startAuto() {
+    const delay = typeof CAROUSEL_AUTO_DELAY_MS !== 'undefined' ? CAROUSEL_AUTO_DELAY_MS : 4000;
     autoTimer = setInterval(function () {
       goTo(current >= maxIndex() ? 0 : current + 1);
-    }, CAROUSEL_AUTO_DELAY_MS);
+    }, delay);
   }
 
   function stopAuto()  { clearInterval(autoTimer); }
