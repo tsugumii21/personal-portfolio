@@ -121,16 +121,31 @@ html.dark {
    Removed after the transition completes so it never fights
    with hover/micro-interaction animations.
 ================================================================ */
-html.is-theme-switching *:not(.cert-carousel-track),
-html.is-theme-switching *:not(.cert-carousel-track)::before,
-html.is-theme-switching *:not(.cert-carousel-track)::after {
+html.is-theme-switching,
+html.is-theme-switching body,
+html.is-theme-switching header,
+html.is-theme-switching .navbar,
+html.is-theme-switching .nav-link,
+html.is-theme-switching .github-card,
+html.is-theme-switching .github-dot,
+html.is-theme-switching .legend-box,
+html.is-theme-switching .project-card,
+html.is-theme-switching .cert-card,
+html.is-theme-switching .skills-card,
+html.is-theme-switching .experience-card,
+html.is-theme-switching .section-heading,
+html.is-theme-switching .section-subheading,
+html.is-theme-switching h1, html.is-theme-switching h2, html.is-theme-switching h3,
+html.is-theme-switching p, html.is-theme-switching span, html.is-theme-switching a,
+html.is-theme-switching button, html.is-theme-switching input, html.is-theme-switching textarea,
+html.is-theme-switching svg, html.is-theme-switching path {
   transition:
-    background-color 0.45s var(--ease-out),
-    color            0.45s var(--ease-out),
-    border-color     0.45s var(--ease-out),
-    box-shadow       0.45s var(--ease-out),
-    fill             0.45s var(--ease-out),
-    stroke           0.45s var(--ease-out) !important;
+    background-color 0.4s var(--ease-out),
+    color            0.4s var(--ease-out),
+    border-color     0.4s var(--ease-out),
+    box-shadow       0.4s var(--ease-out),
+    fill             0.4s var(--ease-out),
+    stroke           0.4s var(--ease-out) !important;
 }
 
 /* ================================================================
