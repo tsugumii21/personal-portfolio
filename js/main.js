@@ -595,55 +595,62 @@ if (themeToggle) {
     dates.push(d);
   }
 
-  // Try loading live data
-  fetch('https://github-contributions-api.jogruber.de/v4/' + username)
-    .then(function(res) {
-      if (!res.ok) throw new Error('API request failed');
-      return res.json();
-    })
-    .then(function(data) {
-      if (!data || !data.contributions) throw new Error('Invalid data format');
-      
-      // Map API array to key-value object for quick lookup
-      var apiDataMap = {};
-      data.contributions.forEach(function(item) {
-        apiDataMap[item.date] = {
-          count: item.count,
-          level: item.level
-        };
-      });
-
-      var parsedContributions = [];
-      var totalCount = 0;
-
-      // Match dates with API values
-      dates.forEach(function(date) {
-        var dateStr = formatDate(date);
-        var match = apiDataMap[dateStr];
-        var level = match ? match.level : 0;
-        var count = match ? match.count : 0;
+  // Try loading live data with backward-compatibility safety checks
+  if (typeof fetch === 'function') {
+    fetch('https://github-contributions-api.jogruber.de/v4/' + username)
+      .then(function(res) {
+        if (!res.ok) throw new Error('API request failed');
+        return res.json();
+      })
+      .then(function(data) {
+        if (!data || !data.contributions) throw new Error('Invalid data format');
         
-        totalCount += count;
-        parsedContributions.push({
-          date: dateStr,
-          level: level,
-          count: count
+        // Map API array to key-value object for quick lookup
+        var apiDataMap = {};
+        data.contributions.forEach(function(item) {
+          apiDataMap[item.date] = {
+            count: item.count,
+            level: item.level
+          };
         });
+
+        var parsedContributions = [];
+        var totalCount = 0;
+
+        // Match dates with API values
+        dates.forEach(function(date) {
+          var dateStr = formatDate(date);
+          var match = apiDataMap[dateStr];
+          var level = match ? match.level : 0;
+          var count = match ? match.count : 0;
+          
+          totalCount += count;
+          parsedContributions.push({
+            date: dateStr,
+            level: level,
+            count: count
+          });
+        });
+
+        renderCalendar(parsedContributions, totalCount);
+      })
+      .catch(function(err) {
+        console.warn('[GitHub Widget] Live load failed, rendering simulated fallback:', err);
+        generateSimulatedData();
       });
+  } else {
+    console.warn('[GitHub Widget] Fetch API not supported in this browser, rendering simulated fallback');
+    generateSimulatedData();
+  }
 
-      renderCalendar(parsedContributions, totalCount);
-    })
-    .catch(function(err) {
-      console.warn('[GitHub Widget] Live load failed, rendering simulated fallback:', err);
-      generateSimulatedData();
-    });
-
-  // Format Date to YYYY-MM-DD
+  // Format Date to YYYY-MM-DD (ES5 compatible)
   function formatDate(date) {
     var y = date.getFullYear();
-    var m = String(date.getMonth() + 1).padStart(2, '0');
-    var d = String(date.getDate()).padStart(2, '0');
-    return y + '-' + m + '-' + d;
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var mStr = m < 10 ? '0' + m : m;
+    var dStr = d < 10 ? '0' + d : d;
+    return y + '-' + mStr + '-' + dStr;
   }
 
   // Fallback Simulation Generator
@@ -741,11 +748,16 @@ if (themeToggle) {
       square.className = 'github-dot level-' + item.level;
       
       // Accessibility descriptions
-      var formattedDate = dateObj.toLocaleDateString(undefined, { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric' 
-      });
+      var formattedDate = '';
+      try {
+        formattedDate = dateObj.toLocaleDateString(undefined, { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+      } catch (e) {
+        formattedDate = dateObj.toDateString();
+      }
       var tooltipText = (item.count === 0 ? 'No' : item.count) + ' contributions on ' + formattedDate;
       square.setAttribute('aria-label', tooltipText);
       square.setAttribute('title', tooltipText);
