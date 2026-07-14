@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -20,6 +20,7 @@ export default function App() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
   const [activeSection, setActiveSection] = useState('hero');
+  const location = useLocation();
 
   // Synchronize theme to <html> element
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function App() {
     }, 500);
   };
 
-  // Scroll animations and Scroll Spy
+  // Scroll animations and Scroll Spy (re-triggered on path changes)
   useEffect(() => {
     // 1. Entrance reveal observer
     const revealElements = document.querySelectorAll('.reveal, .reveal-left');
@@ -80,7 +81,21 @@ export default function App() {
       revealObserver.disconnect();
       spyObserver.disconnect();
     };
-  }, []);
+  }, [location.pathname]);
+
+  // Scroll restoration & smooth anchor scrolling on route change
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   return (
     <>
