@@ -1,29 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const skillCategories = [
+const mainSkillCategories = [
   {
     name: 'Frontend',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Bootstrap', 'Responsive Design', 'Prettier']
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'React']
   },
   {
     name: 'Mobile',
-    skills: ['Flutter', 'Dart', 'Google Generative AI']
+    skills: ['Flutter', 'Dart']
   },
   {
     name: 'Backend',
-    skills: ['Node.js', 'PHP', 'Firebase', 'Supabase', 'MySQL', 'PostgreSQL', 'MongoDB']
+    skills: ['Node.js', 'Firebase', 'Supabase']
   },
   {
     name: 'AI & Machine Learning',
-    skills: ['Gemini', 'Anthropic', 'OpenAI']
+    skills: ['Gemini']
   },
   {
     name: 'Developer Tools',
-    skills: ['Git', 'GitHub', 'VS Code', 'Antigravity', 'Figma', 'Canva']
-  },
-  {
-    name: 'Foundational Skills',
-    skills: ['UI Design Basics', 'Responsive UI/UX Design', 'AI Integration', 'Client-Side Data Processing', 'Offline-First Development', 'Version Control', 'OOP']
+    skills: ['Git', 'GitHub', 'VS Code']
   }
 ];
 
@@ -35,11 +32,11 @@ export default function Skills() {
           <span className="section-label reveal">What I Work With</span>
           <h2 className="section-heading reveal reveal-delay-1">Tech Stack</h2>
           <p className="section-subheading reveal reveal-delay-2">
-            Technologies and tools I use to build mobile apps, web projects, and everything in between — sourced from my real GitHub repositories.
+            Primary technologies and tools I use to build mobile apps, web projects, and AI integrations.
           </p>
         </div>
 
-        <div className="skills-card reveal reveal-delay-3">
+        <div className="skills-card reveal reveal-delay-3" style={{ display: 'flex', flexDirection: 'column' }}>
           <div className="skills-card-chrome">
             <div className="chrome-dots">
               <span className="chrome-dot chrome-dot--red"></span>
@@ -50,7 +47,7 @@ export default function Skills() {
           </div>
 
           <div className="skills-card-body">
-            {skillCategories.map((category, index) => (
+            {mainSkillCategories.map((category, index) => (
               <React.Fragment key={category.name}>
                 {index > 0 && <div className="skill-divider" aria-hidden="true" />}
                 <div className="skill-category">
@@ -65,6 +62,26 @@ export default function Skills() {
                 </div>
               </React.Fragment>
             ))}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--spacing-md) var(--spacing-lg) var(--spacing-lg) var(--spacing-lg)', borderTop: '1px solid var(--color-border)' }}>
+            <Link to="/stacks" className="btn btn--outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              View All Stacks
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>

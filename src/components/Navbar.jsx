@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function Navbar({ theme, onToggleTheme, activeSection }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const isHomepage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,13 +47,13 @@ export default function Navbar({ theme, onToggleTheme, activeSection }) {
 
           {/* Links list */}
           <ul className="nav-links" id="nav-links" role="list">
-            <li><a href="#hero" onClick={closeMenu} className={`nav-link ${activeSection === 'hero' ? 'nav-link--active' : ''}`}>Home</a></li>
-            <li><a href="#about" onClick={closeMenu} className={`nav-link ${activeSection === 'about' ? 'nav-link--active' : ''}`}>About</a></li>
-            <li><a href="#skills" onClick={closeMenu} className={`nav-link ${activeSection === 'skills' ? 'nav-link--active' : ''}`}>Skills</a></li>
-            <li><a href="#certifications" onClick={closeMenu} className={`nav-link ${activeSection === 'certifications' ? 'nav-link--active' : ''}`}>Certifications</a></li>
-            <li><a href="#experience" onClick={closeMenu} className={`nav-link ${activeSection === 'experience' ? 'nav-link--active' : ''}`}>Experience</a></li>
-            <li><a href="#projects" onClick={closeMenu} className={`nav-link ${activeSection === 'projects' ? 'nav-link--active' : ''}`}>Projects</a></li>
-            <li><a href="#contact" onClick={closeMenu} className={`nav-link ${activeSection === 'contact' ? 'nav-link--active' : ''}`}>Contact</a></li>
+            <li><a href={isHomepage ? "#hero" : "/#hero"} onClick={closeMenu} className={`nav-link ${activeSection === 'hero' ? 'nav-link--active' : ''}`}>Home</a></li>
+            <li><a href={isHomepage ? "#about" : "/#about"} onClick={closeMenu} className={`nav-link ${activeSection === 'about' ? 'nav-link--active' : ''}`}>About</a></li>
+            <li><a href={isHomepage ? "#skills" : "/#skills"} onClick={closeMenu} className={`nav-link ${activeSection === 'skills' ? 'nav-link--active' : ''}`}>Skills</a></li>
+            <li><a href={isHomepage ? "#certifications" : "/#certifications"} onClick={closeMenu} className={`nav-link ${activeSection === 'certifications' ? 'nav-link--active' : ''}`}>Certifications</a></li>
+            <li><a href={isHomepage ? "#experience" : "/#experience"} onClick={closeMenu} className={`nav-link ${activeSection === 'experience' ? 'nav-link--active' : ''}`}>Experience</a></li>
+            <li><a href={isHomepage ? "#projects" : "/#projects"} onClick={closeMenu} className={`nav-link ${activeSection === 'projects' ? 'nav-link--active' : ''}`}>Projects</a></li>
+            <li><a href={isHomepage ? "#contact" : "/#contact"} onClick={closeMenu} className={`nav-link ${activeSection === 'contact' ? 'nav-link--active' : ''}`}>Contact</a></li>
           </ul>
 
           {/* Theme toggler */}

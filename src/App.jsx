@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,6 +11,7 @@ import GithubActivity from './components/GithubActivity';
 import Contact from './components/Contact';
 import Chatbot from './components/Chatbot';
 import ScrollToTop from './components/ScrollToTop';
+import AllStacks from './pages/AllStacks';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -84,16 +86,21 @@ export default function App() {
     <>
       <Navbar theme={theme} onToggleTheme={toggleTheme} activeSection={activeSection} />
 
-      <main id="main-content" role="main">
-        <Hero />
-        <About />
-        <Skills />
-        <Certifications />
-        <Experience />
-        <Projects />
-        <GithubActivity />
-        <Contact />
-      </main>
+      <Routes>
+        <Route path="/" element={
+          <main id="main-content" role="main">
+            <Hero />
+            <About />
+            <Skills />
+            <Certifications />
+            <Experience />
+            <Projects />
+            <GithubActivity />
+            <Contact />
+          </main>
+        } />
+        <Route path="/stacks" element={<AllStacks />} />
+      </Routes>
 
       <footer id="footer" className="site-footer" role="contentinfo">
         <div className="container container--footer">
@@ -106,13 +113,13 @@ export default function App() {
 
           {/* Center: Nav Links */}
           <nav className="footer-nav" aria-label="Footer Navigation">
-            <a href="#hero" className="footer-nav-link">Home</a>
-            <a href="#about" className="footer-nav-link">About</a>
-            <a href="#skills" className="footer-nav-link">Skills</a>
-            <a href="#certifications" className="footer-nav-link">Certifications</a>
-            <a href="#experience" className="footer-nav-link">Experience</a>
-            <a href="#projects" className="footer-nav-link">Projects</a>
-            <a href="#contact" className="footer-nav-link">Contact</a>
+            <a href="/#hero" className="footer-nav-link">Home</a>
+            <a href="/#about" className="footer-nav-link">About</a>
+            <a href="/#skills" className="footer-nav-link">Skills</a>
+            <a href="/#certifications" className="footer-nav-link">Certifications</a>
+            <a href="/#experience" className="footer-nav-link">Experience</a>
+            <a href="/#projects" className="footer-nav-link">Projects</a>
+            <a href="/#contact" className="footer-nav-link">Contact</a>
           </nav>
 
           {/* Right: Social Icons */}
