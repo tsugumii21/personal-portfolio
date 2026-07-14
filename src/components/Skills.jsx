@@ -16,11 +16,11 @@ const mainSkillCategories = [
   },
   {
     name: 'AI & Machine Learning',
-    skills: ['Gemini']
+    skills: ['Gemini', 'Anthropic']
   },
   {
     name: 'Developer Tools',
-    skills: ['Git', 'GitHub', 'VS Code', 'Vite']
+    skills: ['Git', 'GitHub', 'VS Code', 'Vite', 'Antigravity']
   }
 ];
 
