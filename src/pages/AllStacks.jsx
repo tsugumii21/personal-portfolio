@@ -62,7 +62,7 @@ export default function AllStacks() {
   };
 
   return (
-    <section id="all-stacks" className="section" style={{ minHeight: '100vh', paddingTop: '100px' }}>
+    <section id="all-stacks" className="section" style={{ minHeight: '100vh', paddingTop: '120px', paddingBottom: '120px' }}>
       <div className="container">
         {/* Navigation & Header */}
         <div style={{ marginBottom: 'var(--spacing-2xl)' }}>
