@@ -5,7 +5,7 @@ const skillCategories = [
   {
     name: 'Frontend',
     desc: 'Building responsive, high-performance, and visually stunning web interfaces.',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind CSS', 'Bootstrap', 'Responsive Design', 'Prettier']
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind CSS', 'Bootstrap', 'Prettier']
   },
   {
     name: 'Mobile',
