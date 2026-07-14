@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const mainSkillCategories = [
   {
     name: 'Frontend',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React']
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind CSS']
   },
   {
     name: 'Mobile',
@@ -20,7 +20,7 @@ const mainSkillCategories = [
   },
   {
     name: 'Developer Tools',
-    skills: ['Git', 'GitHub', 'VS Code']
+    skills: ['Git', 'GitHub', 'VS Code', 'Vite']
   }
 ];
 

@@ -5,7 +5,7 @@ const skillCategories = [
   {
     name: 'Frontend',
     desc: 'Building responsive, high-performance, and visually stunning web interfaces.',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Bootstrap', 'Responsive Design', 'Prettier']
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind CSS', 'Bootstrap', 'Responsive Design', 'Prettier']
   },
   {
     name: 'Mobile',
@@ -25,7 +25,7 @@ const skillCategories = [
   {
     name: 'Developer Tools',
     desc: 'Version control workflows, development environments, and UI/UX design tools.',
-    skills: ['Git', 'GitHub', 'VS Code', 'Antigravity', 'Figma', 'Canva']
+    skills: ['Git', 'GitHub', 'VS Code', 'Vite', 'Antigravity', 'Figma', 'Canva']
   },
   {
     name: 'Foundational Skills',
