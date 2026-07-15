@@ -61,6 +61,8 @@ const certs = [
 export default function Certifications() {
   const [current, setCurrent] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+  const [selectedCert, setSelectedCert] = useState(null);
+  
   const trackRef = useRef(null);
   const autoTimerRef = useRef(null);
   const touchStartXRef = useRef(0);
@@ -107,7 +109,6 @@ export default function Certifications() {
     };
 
     syncPosition();
-    // Sync position on a tiny delay in case layout is adjusting
     const t = setTimeout(syncPosition, 50);
     window.addEventListener('resize', syncPosition);
 
@@ -117,9 +118,10 @@ export default function Certifications() {
     };
   }, [current, visibleCount]);
 
-  // Autoplay functionality
+  // Autoplay functionality (paused when modal is open)
   const startAuto = () => {
     stopAuto();
+    if (selectedCert) return; // Keep paused if modal is open
     autoTimerRef.current = setInterval(() => {
       setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }, 4000);
@@ -139,7 +141,7 @@ export default function Certifications() {
   useEffect(() => {
     startAuto();
     return () => stopAuto();
-  }, [visibleCount, maxIndex]);
+  }, [visibleCount, maxIndex, selectedCert]);
 
   const goTo = (idx) => {
     setCurrent(Math.max(0, Math.min(idx, maxIndex)));
@@ -157,6 +159,18 @@ export default function Certifications() {
       goTo(delta > 0 ? current + 1 : current - 1);
     }
   };
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedCert) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedCert]);
 
   return (
     <section id="certifications" aria-label="Certifications">
@@ -212,16 +226,13 @@ export default function Certifications() {
                   role="group"
                   aria-label={`Certificate ${index + 1} of ${certs.length}`}
                 >
-                  <article className="cert-card">
+                  <article 
+                    className="cert-card" 
+                    onClick={() => setSelectedCert(cert)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="cert-preview">
-                      <a
-                        href={cert.img}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`View ${cert.name} Certificate image`}
-                      >
-                        <img src={cert.img} alt={cert.name} loading="lazy" />
-                      </a>
+                      <img src={cert.img} alt={cert.name} loading="lazy" />
                     </div>
                     <div className="cert-card-top">
                       <div className="cert-issuer-circle" aria-hidden="true">
@@ -235,15 +246,8 @@ export default function Certifications() {
                     </div>
                     <p className="cert-id">{cert.certId || '\u00A0'}</p>
                     <div className="cert-card-bottom">
-                      <span class="cert-date">{cert.date}</span>
-                      <a
-                        href={cert.pdf}
-                        className="cert-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Open PDF &#8599;
-                      </a>
+                      <span className="cert-date">{cert.date}</span>
+                      <span className="cert-link">View Preview &rarr;</span>
                     </div>
                   </article>
                 </div>
@@ -288,6 +292,109 @@ export default function Certifications() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* ── Certification Preview Modal Overlay ── */}
+      <div 
+        className={`cert-modal-backdrop ${selectedCert ? 'is-open' : ''}`}
+        onClick={() => setSelectedCert(null)}
+      >
+        {selectedCert && (
+          <div 
+            className="cert-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="cert-modal-header">
+              <h3 className="cert-modal-title">{selectedCert.name}</h3>
+              <button 
+                className="cert-modal-close-btn"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close certificate preview"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="cert-modal-body">
+              <div className="cert-modal-img-wrapper">
+                <img 
+                  src={selectedCert.img} 
+                  alt={selectedCert.name} 
+                  className="cert-modal-image"
+                />
+              </div>
+              
+              <div className="cert-modal-info">
+                <div className="cert-modal-details">
+                  <div className="cert-modal-detail-item">
+                    <strong>Organization / Issuer</strong>
+                    <span>{selectedCert.org}</span>
+                  </div>
+                  <div className="cert-modal-detail-item">
+                    <strong>Description</strong>
+                    <span>{selectedCert.via}</span>
+                  </div>
+                  <div className="cert-modal-detail-item">
+                    <strong>Date Issued</strong>
+                    <span>{selectedCert.date}</span>
+                  </div>
+                  {selectedCert.certId && (
+                    <div className="cert-modal-detail-item">
+                      <strong>Verification ID</strong>
+                      <span>{selectedCert.certId}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            <div className="cert-modal-footer">
+              <button 
+                className="btn btn--outline"
+                onClick={() => setSelectedCert(null)}
+              >
+                Close
+              </button>
+              <a 
+                href={selectedCert.pdf}
+                className="btn btn--dark"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              >
+                Download PDF
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
