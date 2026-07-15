@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import Chatbot from './components/Chatbot';
 import ScrollToTop from './components/ScrollToTop';
 import AllStacks from './pages/AllStacks';
+import AllProjects from './pages/AllProjects';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -115,6 +116,7 @@ export default function App() {
           </main>
         } />
         <Route path="/stacks" element={<AllStacks />} />
+        <Route path="/projects" element={<AllProjects />} />
       </Routes>
 
       <footer id="footer" className="site-footer" role="contentinfo">

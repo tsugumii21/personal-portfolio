@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const projects = [
   {
@@ -54,6 +55,9 @@ const projects = [
 ];
 
 export default function Projects() {
+  // Only show first 3 projects on the homepage
+  const homepageProjects = projects.slice(0, 3);
+
   return (
     <section id="projects" aria-label="Projects">
       <div className="container">
@@ -66,7 +70,7 @@ export default function Projects() {
         </div>
 
         <div className="projects-grid">
-          {projects.map((project, index) => (
+          {homepageProjects.map((project, index) => (
             <article
               key={project.id}
               className={`project-card reveal reveal-delay-${(index % 4) + 1}`}
@@ -145,29 +149,27 @@ export default function Projects() {
         </div>
 
         <div className="projects-footer reveal reveal-delay-4">
-          <a
-            href="https://github.com/tsugumii21"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/projects"
             className="btn btn--outline"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
           >
+            View All Projects
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              aria-hidden="true"
-              focusable="false"
             >
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
             </svg>
-            View More on GitHub
-          </a>
+          </Link>
         </div>
       </div>
     </section>
